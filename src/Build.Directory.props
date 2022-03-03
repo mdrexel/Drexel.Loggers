@@ -1,0 +1,16 @@
+<Project>
+  <PropertyGroup>
+    <Deterministic>true</Deterministic>
+
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
+  </ItemGroup>
+</Project>
