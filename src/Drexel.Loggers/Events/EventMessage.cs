@@ -6,6 +6,8 @@ using System.Globalization;
 // specified culture? If they supply a message in the invariant culture, we'll silently fall back to it, giving them no
 // chance to handle it themselves? (Ex. they want to emit their own default message, or they want to omit serializing
 // the message, etc.)
+// TODO: Add unit tests
+// TODO: Check for typos before copying for reasons/suggestions
 throw new NotImplementedException();
 
 namespace Drexel.Loggers.Events
