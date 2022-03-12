@@ -9,10 +9,14 @@ namespace Drexel.Loggers.Tests.Events
     [TestClass]
     public sealed class EventMessageTests
     {
+        private static readonly CultureInfo French = CultureInfo.GetCultureInfoByIetfLanguageTag("fr");
+        private static readonly CultureInfo German = CultureInfo.GetCultureInfoByIetfLanguageTag("de");
+        private static readonly CultureInfo Japanese = CultureInfo.GetCultureInfoByIetfLanguageTag("jp");
+
         [TestMethod]
         public void EventMessage_Ctor_Invariant_Succeeds()
         {
-            const string expectedMessage = "This is a test message.";
+            const string expectedMessage = "Hello";
 
             EventMessage actual = new EventMessage(expectedMessage);
 
@@ -22,7 +26,39 @@ namespace Drexel.Loggers.Tests.Events
         [TestMethod]
         public void EventMessage_Ctor_Invariant_Null_ThrowsArgumentNull()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => new EventMessage(invariant: null!));
+            ArgumentNullException exception =
+                Assert.ThrowsException<ArgumentNullException>(
+                    () => new EventMessage(invariant: null!));
+            Assert.AreEqual("invariant", exception.ParamName);
+        }
+
+        [TestMethod]
+        public void EventMessage_Ctor_Preferred_Succeeds()
+        {
+            const string expectedMessage = "Bonjour";
+            CultureInfo expectedCulture = French;
+
+            EventMessage actual = new EventMessage(expectedMessage, expectedCulture);
+
+            Assert.AreEqual(expectedMessage, actual.Localizations[expectedCulture]);
+        }
+
+        [TestMethod]
+        public void EventMessage_Ctor_Preferred_NullMessage_ThrowsArgumentNull()
+        {
+            ArgumentNullException exception =
+                Assert.ThrowsException<ArgumentNullException>(
+                    () => new EventMessage(message: null!, German));
+            Assert.AreEqual("message", exception.ParamName);
+        }
+
+        [TestMethod]
+        public void EventMessage_Ctor_Preferred_NullCulture_ThrowsArgumentNull()
+        {
+            ArgumentNullException exception =
+                Assert.ThrowsException<ArgumentNullException>(
+                    () => new EventMessage(message: "Hello", culture: null!));
+            Assert.AreEqual("culture", exception.ParamName);
         }
 
         [TestMethod]
@@ -31,9 +67,9 @@ namespace Drexel.Loggers.Tests.Events
             Dictionary<CultureInfo, string> expectedMessages =
                 new Dictionary<CultureInfo, string>()
                 {
-                    [CultureInfo.GetCultureInfoByIetfLanguageTag("de")] = "Hallo",
-                    [CultureInfo.GetCultureInfoByIetfLanguageTag("fr")] = "Bonjour",
-                    [CultureInfo.GetCultureInfoByIetfLanguageTag("jp")] = "こんにちは",
+                    [French] = "Bonjour",
+                    [German] = "Hallo",
+                    [Japanese] = "こんにちは",
                 };
 
             EventMessage actual = new EventMessage(expectedMessages);
@@ -44,7 +80,10 @@ namespace Drexel.Loggers.Tests.Events
         [TestMethod]
         public void EventMessage_Ctor_Localizations_Null_ThrowsArgumentNull()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => new EventMessage(localizations: null!));
+            ArgumentNullException exception =
+                Assert.ThrowsException<ArgumentNullException>(
+                    () => new EventMessage(localizations: null!));
+            Assert.AreEqual("localizations", exception.ParamName);
         }
     }
 }

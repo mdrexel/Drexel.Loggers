@@ -38,6 +38,33 @@ namespace Drexel.Loggers.Events
         /// <summary>
         /// Initializes a new instance of the <see cref="EventMessage"/> class.
         /// </summary>
+        /// <param name="message">
+        /// The event message associated with the culture specified by <paramref name="culture"/>.
+        /// </param>
+        /// <param name="culture">
+        /// The culture of the specified <paramref name="message"/>.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="message"/> or <paramref name="culture"/> is <see langword="null"/>.
+        /// </exception>
+        public EventMessage(string message, CultureInfo culture)
+        {
+            if (message is null)
+            {
+                throw new ArgumentNullException(nameof(message));
+            }
+
+            this.preferredCulture = culture ?? throw new ArgumentNullException(nameof(culture));
+            this.Localizations = ReadOnlyDictionary.Create(
+                new Dictionary<CultureInfo, string>(1)
+                {
+                    [culture] = message,
+                });
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EventMessage"/> class.
+        /// </summary>
         /// <param name="localizations">
         /// The localized representations of this message.
         /// </param>
