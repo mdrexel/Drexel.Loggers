@@ -146,25 +146,6 @@ namespace Drexel.Loggers.Tests
                     Assert.Fail(Invariant($"Expected item at index {expectedIndex} was not contained by actual enumerable. Expected item: {expectedItem}"));
                 }
             }
-
-            using (IEnumerator<T> expectedEnumerator = expected.GetEnumerator())
-            using (IEnumerator<T> actualEnumerator = actual.GetEnumerator())
-            {
-                int index;
-                for (index = 0; expectedEnumerator.MoveNext(); index++)
-                {
-                    Assert.IsTrue(
-                        actualEnumerator.MoveNext(),
-                        Invariant($"Actual enumerator contained fewer items than expected enumerator. Length of actual: {index}"));
-                    Assert.IsTrue(
-                        comparer.Equals(expectedEnumerator.Current, actualEnumerator.Current),
-                        Invariant($"Item at index {0} was not equal. Expected: {expectedEnumerator.Current}, Actual: {actualEnumerator.Current}"));
-                }
-
-                Assert.IsFalse(
-                    actualEnumerator.MoveNext(),
-                    Invariant($"Actual enumerator contained more items than expected enumerator. Length of expected: {index}, Last item in actual: {actualEnumerator.Current}"));
-            }
         }
     }
 }
