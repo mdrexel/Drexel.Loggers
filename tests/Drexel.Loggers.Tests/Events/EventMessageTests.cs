@@ -13,6 +13,54 @@ namespace Drexel.Loggers.Tests.Events
         private static readonly CultureInfo German = CultureInfo.GetCultureInfoByIetfLanguageTag("de");
         private static readonly CultureInfo Japanese = CultureInfo.GetCultureInfoByIetfLanguageTag("jp");
 
+        public static IEnumerable<object?[]> EqualityOperatorCases
+        {
+            get
+            {
+                yield return new object?[] { null, null };
+                yield return new object?[] { new EventMessage("foo"), new EventMessage("foo") };
+                yield return new object?[]
+                {
+                    new EventMessage(
+                        new Dictionary<CultureInfo, string>()
+                        {
+                            [French] = "Foo",
+                        },
+                        French),
+                    new EventMessage(
+                        new Dictionary<CultureInfo, string>()
+                        {
+                            [Japanese] = "Foo",
+                        },
+                        Japanese),
+                };
+            }
+        }
+
+        public static IEnumerable<object?[]> InequalityOperatorCases
+        {
+            get
+            {
+                yield return new object?[] { null, new EventMessage("foo") };
+                yield return new object?[] { new EventMessage("foo"), new EventMessage("bar") };
+                yield return new object?[]
+                {
+                    new EventMessage(
+                        new Dictionary<CultureInfo, string>()
+                        {
+                            [French] = "Foo",
+                        },
+                        French),
+                    new EventMessage(
+                        new Dictionary<CultureInfo, string>()
+                        {
+                            [Japanese] = "Bar",
+                        },
+                        Japanese),
+                };
+            }
+        }
+
         [TestMethod]
         public void EventMessage_Ctor_Invariant_Succeeds()
         {
@@ -84,6 +132,20 @@ namespace Drexel.Loggers.Tests.Events
                 Assert.ThrowsException<ArgumentNullException>(
                     () => new EventMessage(localizations: null!));
             Assert.AreEqual("localizations", exception.ParamName);
+        }
+
+        [DataTestMethod]
+        [DynamicData(nameof(EqualityOperatorCases))]
+        public void EventMessage_EqualityOperator_AreEqual_Succeeds(EventMessage? left, EventMessage? right)
+        {
+            Assert.IsTrue(left == right);
+        }
+
+        [DataTestMethod]
+        [DynamicData(nameof(EqualityOperatorCases))]
+        public void EventMessage_InequalityOperator_AreEqual_Succeeds(EventMessage? left, EventMessage? right)
+        {
+            Assert.IsFalse(left != right);
         }
     }
 }

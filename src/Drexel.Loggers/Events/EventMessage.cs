@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 
 namespace Drexel.Loggers.Events
@@ -7,6 +8,7 @@ namespace Drexel.Loggers.Events
     /// <summary>
     /// Represents a localizable log event message.
     /// </summary>
+    [DebuggerDisplay("{ToString(),nq}")]
     public sealed class EventMessage : IEquatable<EventMessage>
     {
         private readonly CultureInfo preferredCulture;
@@ -69,8 +71,8 @@ namespace Drexel.Loggers.Events
         /// The localized representations of this message.
         /// </param>
         /// <param name="preferredCulture">
-        /// The culture to use when a message is requested but the request does not include a<see cref="CultureInfo"/>.
-        /// If <paramref name="preferredCulture"/> is <see langword="null"/>,
+        /// The culture to use when a message is requested but the request does not include a
+        /// <see cref="CultureInfo"/>. If <paramref name="preferredCulture"/> is <see langword="null"/>,
         /// <see cref="CultureInfo.InvariantCulture"/> will be used.
         /// </param>
         /// <exception cref="ArgumentNullException">
@@ -78,7 +80,7 @@ namespace Drexel.Loggers.Events
         /// </exception>
         /// <remarks>
         /// <paramref name="localizations"/> should include a localized messge for the the culture specified by
-        /// <param name="preferredCulture"/> (or, if <paramref name="preferredCulture"/> is <see langword="null"/>,
+        /// <paramref name="preferredCulture"/> (or, if <paramref name="preferredCulture"/> is <see langword="null"/>,
         /// <see cref="CultureInfo.InvariantCulture"/>) to avoid runtime errors when comparing
         /// <see cref="EventMessage"/> instances.
         /// </remarks>
