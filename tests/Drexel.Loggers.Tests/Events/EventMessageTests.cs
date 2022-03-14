@@ -18,6 +18,28 @@ namespace Drexel.Loggers.Tests.Events
             get
             {
                 yield return new object?[] { null, null };
+                foreach (object?[] @case in EqualsAreEqualCases)
+                {
+                    yield return @case;
+                }
+            }
+        }
+
+        public static IEnumerable<object?[]> InequalityOperatorCases
+        {
+            get
+            {
+                yield return new object?[] { null, new EventMessage("foo") };
+                foreach (object?[] @case in EqualsAreNotEqualCases)
+                {
+                    yield return @case;
+                }
+            }
+        }
+        public static IEnumerable<object?[]> EqualsAreEqualCases
+        {
+            get
+            {
                 yield return new object?[] { new EventMessage("foo"), new EventMessage("foo") };
                 yield return new object?[]
                 {
@@ -37,11 +59,11 @@ namespace Drexel.Loggers.Tests.Events
             }
         }
 
-        public static IEnumerable<object?[]> InequalityOperatorCases
+        public static IEnumerable<object?[]> EqualsAreNotEqualCases
         {
             get
             {
-                yield return new object?[] { null, new EventMessage("foo") };
+                yield return new object?[] { new EventMessage("foo"), null };
                 yield return new object?[] { new EventMessage("foo"), new EventMessage("bar") };
                 yield return new object?[]
                 {
@@ -142,10 +164,126 @@ namespace Drexel.Loggers.Tests.Events
         }
 
         [DataTestMethod]
+        [DynamicData(nameof(InequalityOperatorCases))]
+        public void EventMEssage_EqualityOperator_AreNotEqual_Succeeds(EventMessage? left, EventMessage? right)
+        {
+            Assert.IsFalse(left == right);
+        }
+
+        [DataTestMethod]
         [DynamicData(nameof(EqualityOperatorCases))]
         public void EventMessage_InequalityOperator_AreEqual_Succeeds(EventMessage? left, EventMessage? right)
         {
             Assert.IsFalse(left != right);
+        }
+
+        [DataTestMethod]
+        [DynamicData(nameof(InequalityOperatorCases))]
+        public void EventMessage_InequalityOperator_AreNotEqual_Succeeds(EventMessage? left, EventMessage? right)
+        {
+            Assert.IsTrue(left!= right);
+        }
+
+        [DataTestMethod]
+        [DynamicData(nameof(EqualsAreEqualCases))]
+        public void EventMessage_Equals_Object_AreEqual_Succeeds(EventMessage left, object? right)
+        {
+            Assert.IsTrue(left.Equals(right));
+        }
+
+        [DataTestMethod]
+        [DynamicData(nameof(EqualsAreNotEqualCases))]
+        public void EventMessage_Equals_Object_AreNotEqual_Succeeds(EventMessage left, object? right)
+        {
+            Assert.IsFalse(left.Equals(right));
+        }
+
+        [DataTestMethod]
+        [DynamicData(nameof(EqualsAreEqualCases))]
+        public void EventMessage_Equals_EventMessage_AreEqual_Succeeds(EventMessage left, EventMessage? right)
+        {
+            Assert.IsTrue(left.Equals(right));
+        }
+
+        [DataTestMethod]
+        [DynamicData(nameof(EqualsAreNotEqualCases))]
+        public void EventMessage_Equals_EventMessage_AreNotEqual_Succeeds(EventMessage left, EventMessage? right)
+        {
+            Assert.IsFalse(left.Equals(right));
+        }
+
+        [TestMethod]
+        public void EventMessage_Equals_Culture_NullOther_Succeeds()
+        {
+            EventMessage left = new EventMessage("foo");
+
+            Assert.IsFalse(left.Equals(null, null));
+        }
+
+        [TestMethod]
+        public void EventMessage_Equals_Culture_NullCulture_Succeeds()
+        {
+            EventMessage left = new EventMessage("Foo", French);
+            EventMessage right = new EventMessage("Foo", German);
+
+            Assert.IsTrue(left.Equals(right, null));
+        }
+
+        [TestMethod]
+        public void EventMEssage_Equals_Culture_Fallback_Succeeds()
+        {
+            EventMessage left = new EventMessage("Foo", French);
+            EventMessage right = new EventMessage("Foo", German);
+
+            Assert.IsTrue(left.Equals(right, Japanese));
+        }
+
+        [TestMethod]
+        public void EventMessage_Equals_Culture_AreEqual_Succeeds()
+        {
+            EventMessage left =
+                new EventMessage(
+                    new Dictionary<CultureInfo, string>()
+                    {
+                        [French] = "foo",
+                        [German] = "bar",
+                    },
+                    French);
+            EventMessage right =
+                new EventMessage(
+                    new Dictionary<CultureInfo, string>()
+                    {
+                        [French] = "foo",
+                        [German] = "bar",
+                    },
+                    French);
+
+            Assert.IsTrue(left.Equals(right, German));
+        }
+
+        [TestMethod]
+        public void EventMessage_GetHashCode_Succeeds()
+        {
+            const string message = "Foo";
+
+            EventMessage eventMessage = new EventMessage(message);
+
+            Assert.AreEqual(message.GetHashCode(), eventMessage.GetHashCode());
+        }
+
+        [TestMethod]
+        public void EventMessage_GetHashCode_NoLocalizations_Succeeds()
+        {
+            EventMessage eventMessage = new EventMessage(new Dictionary<CultureInfo, string>());
+
+            Assert.AreEqual(0, eventMessage.GetHashCode());
+        }
+
+        [DataTestMethod]
+        [DataRow(nameof(EqualsAreEqualCases))]
+        public void EventMessage_GetHashCode_FollowsEqualityRules(EventMessage left, EventMessage right)
+        {
+            Assert.AreEqual(left.GetHashCode(), right.GetHashCode());
         }
     }
 }

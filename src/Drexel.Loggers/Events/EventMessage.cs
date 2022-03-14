@@ -190,27 +190,29 @@ namespace Drexel.Loggers.Events
 
         /// <summary>
         /// Returns a value indicating whether <paramref name="other"/> is non-<see langword="null"/> and has the same
-        /// message as this instance in the culture specified by <paramref name="culture"/>.
+        /// message as this instance.
         /// </summary>
         /// <param name="other">
         /// The <see cref="EventMessage"/> to compare this instance with.
         /// </param>
         /// <param name="culture">
-        /// When non-<see langword="null"/>, the culture to use when performing the comparison. If a
-        /// <see cref="EventMessage"/> instance does not have a message in the specified culture, the message in the
-        /// preferred culture will be used. When falling back to the preferred culture, If a <see cref="EventMessage"/>
-        /// instance does not have a message in the preferred culture, a <see cref="InvalidOperationException"/> will
-        /// be thrown. When <see langword="null"/>, the preferred culture will be used.
+        /// When non-<see langword="null"/>, the culture to use when performing the comparison. When
+        /// <see langword="null"/>, the preferred culture will be used.
         /// </param>
         /// <returns>
         /// <see langword="true"/> if <paramref name="other"/> is non-<see langword="null"/> and has the same message
-        /// as this instance in the culture specified by <paramref name="culture"/>; otherwise,
-        /// <see langword="false"/>.
+        /// as this instance; otherwise, <see langword="false"/>.
         /// </returns>
         /// <exception cref="InvalidOperationException">
         /// Thrown when falling back to the preferred culture if the <see cref="EventMessage"/> instance for which the
         /// fallback occurred does not have a message in the preferred culture.
         /// </exception>
+        /// <remarks>
+        /// If an <see cref="EventMessage"/> instance does not have a message in the culture specified by
+        /// <paramref name="culture"/>, the message in the instance's preferred culture will be used. When falling back
+        /// to the preferred culture, if a <see cref="EventMessage"/> instance does not have a message in the preferred
+        /// culture, a <see cref="InvalidOperationException"/> will be thrown.
+        /// </remarks>
         public bool Equals(EventMessage? other, CultureInfo? culture)
         {
             if (other is null)
