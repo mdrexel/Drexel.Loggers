@@ -1,33 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 
 namespace Drexel.Loggers
 {
+    /// <summary>
+    /// Represents a localizable string.
+    /// </summary>
+    /// <typeparam name="TDerived">
+    /// The derived type of this instance.
+    /// </typeparam>
+    [DebuggerDisplay("{ToString(),nq}")]
     public abstract class LocalizableString<TDerived> : ILocalizableString<LocalizableString<TDerived>, TDerived>
         where TDerived : LocalizableString<TDerived>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LocalizableString{TDerived}"/> class.
         /// </summary>
-        /// <param name="invariantLocalization">
+        /// <param name="invariant">
         /// The localization in the invariant culture.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown when <paramref name="invariantLocalization"/> is <see langword="null"/>.
+        /// Thrown when <paramref name="invariant"/> is <see langword="null"/>.
         /// </exception>
-        private protected LocalizableString(string invariantLocalization)
+        private protected LocalizableString(string invariant)
         {
-            if (invariantLocalization is null)
+            if (invariant is null)
             {
-                throw new ArgumentNullException(nameof(invariantLocalization));
+                throw new ArgumentNullException(nameof(invariant));
             }
 
             this.PreferredCulture = CultureInfo.InvariantCulture;
             this.Localizations = ReadOnlyDictionary.Create(
                 new Dictionary<CultureInfo, string>(1)
                 {
-                    [CultureInfo.InvariantCulture] = invariantLocalization,
+                    [CultureInfo.InvariantCulture] = invariant,
                 });
         }
 
@@ -61,24 +69,24 @@ namespace Drexel.Loggers
         /// <summary>
         /// Initializes a new instance of the <see cref="LocalizableString{TDerived}"/> class.
         /// </summary>
-        /// <param name="preferredCulture">
-        /// The preferred culture.
-        /// </param>
         /// <param name="localizations">
         /// The localizations. The supplied dictionary must contain a localization for the culture specified by
         /// <paramref name="localizations"/>.
+        /// </param>
+        /// <param name="preferredCulture">
+        /// The preferred culture.
         /// </param>
         /// <exception cref="ArgumentNullException">
         /// Thrown when <paramref name="localizations"/> or <paramref name="preferredCulture"/> is
         /// <see langword="null"/>.
         /// </exception>
         private protected LocalizableString(
-            CultureInfo preferredCulture,
-            IReadOnlyDictionary<CultureInfo, string> localizations)
+            IReadOnlyDictionary<CultureInfo, string> localizations,
+            CultureInfo preferredCulture)
         {
-            this.PreferredCulture = preferredCulture ?? throw new ArgumentNullException(nameof(preferredCulture));
             this.Localizations = ReadOnlyDictionary.Create(
                 localizations ?? throw new ArgumentNullException(nameof(localizations)));
+            this.PreferredCulture = preferredCulture ?? throw new ArgumentNullException(nameof(preferredCulture));
         }
 
         public CultureInfo PreferredCulture { get; }

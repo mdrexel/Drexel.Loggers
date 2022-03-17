@@ -118,8 +118,8 @@ namespace Drexel.Loggers.Tests.Events
         {
             ArgumentNullException exception =
                 Assert.ThrowsException<ArgumentNullException>(
-                    () => new EventMessage(message: null!, German));
-            Assert.AreEqual("message", exception.ParamName);
+                    () => new EventMessage(localization: null!, German));
+            Assert.AreEqual("localization", exception.ParamName);
         }
 
         [TestMethod]
@@ -127,7 +127,7 @@ namespace Drexel.Loggers.Tests.Events
         {
             ArgumentNullException exception =
                 Assert.ThrowsException<ArgumentNullException>(
-                    () => new EventMessage(message: "Hello", culture: null!));
+                    () => new EventMessage(localization: "Hello", culture: null!));
             Assert.AreEqual("culture", exception.ParamName);
         }
 
@@ -142,7 +142,7 @@ namespace Drexel.Loggers.Tests.Events
                     [Japanese] = "こんにちは",
                 };
 
-            EventMessage actual = new EventMessage(expectedMessages);
+            EventMessage actual = new EventMessage(expectedMessages, French);
 
             Assert.That.Equivalent(expectedMessages, actual.Localizations);
         }
@@ -152,7 +152,7 @@ namespace Drexel.Loggers.Tests.Events
         {
             ArgumentNullException exception =
                 Assert.ThrowsException<ArgumentNullException>(
-                    () => new EventMessage(localizations: null!));
+                    () => new EventMessage(localizations: null!, preferredCulture: null!));
             Assert.AreEqual("localizations", exception.ParamName);
         }
 
@@ -274,7 +274,9 @@ namespace Drexel.Loggers.Tests.Events
         [TestMethod]
         public void EventMessage_GetHashCode_NoLocalizations_Succeeds()
         {
-            EventMessage eventMessage = new EventMessage(new Dictionary<CultureInfo, string>());
+            EventMessage eventMessage = new EventMessage(
+                new Dictionary<CultureInfo, string>(),
+                CultureInfo.InvariantCulture);
 
             Assert.AreEqual(0, eventMessage.GetHashCode());
         }
