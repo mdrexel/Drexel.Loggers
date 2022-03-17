@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Drexel.Loggers\Drexel.Loggers.csproj" />
+    <ProjectReference Include="..\Drexel.Loggers.Tests.Common\Drexel.Loggers.Tests.Common.csproj" />
   </ItemGroup>
 
 </Project>

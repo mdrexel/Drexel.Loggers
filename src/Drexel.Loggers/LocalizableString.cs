@@ -89,9 +89,9 @@ namespace Drexel.Loggers
             this.PreferredCulture = preferredCulture ?? throw new ArgumentNullException(nameof(preferredCulture));
         }
 
-        public CultureInfo PreferredCulture { get; }
+        public CultureInfo PreferredCulture { get; protected set; }
 
-        public IReadOnlyDictionary<CultureInfo, string> Localizations { get; }
+        public IReadOnlyDictionary<CultureInfo, string> Localizations { get; protected set; }
 
         /// <summary>
         /// Returns a value indicating whether <paramref name="left"/> and <paramref name="right"/> are both

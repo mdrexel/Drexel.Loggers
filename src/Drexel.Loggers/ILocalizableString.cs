@@ -28,10 +28,11 @@ namespace Drexel.Loggers
         CultureInfo PreferredCulture { get; }
 
         /// <summary>
-        /// Gets this instance's mappings between cultures and strings.
+        /// Gets the localizations of this instance.
         /// </summary>
         /// <value>
-        /// A dictionary that is guaranteed to contain a value for this instance's <see cref="PreferredCulture"/>.
+        /// A dictionary of localizations. A localization is guaranteed to contain a value for this instance's
+        /// <see cref="PreferredCulture"/>.
         /// </value>
         IReadOnlyDictionary<CultureInfo, string> Localizations { get; }
 

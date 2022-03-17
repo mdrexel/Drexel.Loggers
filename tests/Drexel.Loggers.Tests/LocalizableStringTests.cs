@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Drexel.Loggers.Events;
+using Drexel.Loggers.Tests.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Drexel.Loggers.Tests.Events
+namespace Drexel.Loggers.Tests
 {
     [TestClass]
-    public sealed class EventMessageTests
+    public sealed class LocalizableStringTests
     {
         private static readonly CultureInfo French = CultureInfo.GetCultureInfoByIetfLanguageTag("fr");
         private static readonly CultureInfo German = CultureInfo.GetCultureInfoByIetfLanguageTag("de");
@@ -29,7 +29,7 @@ namespace Drexel.Loggers.Tests.Events
         {
             get
             {
-                yield return new object?[] { null, new EventMessage("foo") };
+                yield return new object?[] { null, new LocalizableStringImpl("foo") };
                 foreach (object?[] @case in EqualsAreNotEqualCases)
                 {
                     yield return @case;
@@ -40,16 +40,16 @@ namespace Drexel.Loggers.Tests.Events
         {
             get
             {
-                yield return new object?[] { new EventMessage("foo"), new EventMessage("foo") };
+                yield return new object?[] { new LocalizableStringImpl("foo"), new LocalizableStringImpl("foo") };
                 yield return new object?[]
                 {
-                    new EventMessage(
+                    new LocalizableStringImpl(
                         new Dictionary<CultureInfo, string>()
                         {
                             [French] = "Foo",
                         },
                         French),
-                    new EventMessage(
+                    new LocalizableStringImpl(
                         new Dictionary<CultureInfo, string>()
                         {
                             [Japanese] = "Foo",
@@ -63,17 +63,17 @@ namespace Drexel.Loggers.Tests.Events
         {
             get
             {
-                yield return new object?[] { new EventMessage("foo"), null };
-                yield return new object?[] { new EventMessage("foo"), new EventMessage("bar") };
+                yield return new object?[] { new LocalizableStringImpl("foo"), null };
+                yield return new object?[] { new LocalizableStringImpl("foo"), new LocalizableStringImpl("bar") };
                 yield return new object?[]
                 {
-                    new EventMessage(
+                    new LocalizableStringImpl(
                         new Dictionary<CultureInfo, string>()
                         {
                             [French] = "Foo",
                         },
                         French),
-                    new EventMessage(
+                    new LocalizableStringImpl(
                         new Dictionary<CultureInfo, string>()
                         {
                             [Japanese] = "Bar",
@@ -84,55 +84,55 @@ namespace Drexel.Loggers.Tests.Events
         }
 
         [TestMethod]
-        public void EventMessage_Ctor_Invariant_Succeeds()
+        public void LocalizableString_Ctor_Invariant_Succeeds()
         {
             const string expectedMessage = "Hello";
 
-            EventMessage actual = new EventMessage(expectedMessage);
+            LocalizableStringImpl actual = new LocalizableStringImpl(expectedMessage);
 
             Assert.AreEqual(expectedMessage, actual.Localizations[CultureInfo.InvariantCulture]);
         }
 
         [TestMethod]
-        public void EventMessage_Ctor_Invariant_Null_ThrowsArgumentNull()
+        public void LocalizableString_Ctor_Invariant_Null_ThrowsArgumentNull()
         {
             ArgumentNullException exception =
                 Assert.ThrowsException<ArgumentNullException>(
-                    () => new EventMessage(invariant: null!));
+                    () => new LocalizableStringImpl(invariant: null!));
             Assert.AreEqual("invariant", exception.ParamName);
         }
 
         [TestMethod]
-        public void EventMessage_Ctor_Preferred_Succeeds()
+        public void LocalizableString_Ctor_Preferred_Succeeds()
         {
             const string expectedMessage = "Bonjour";
             CultureInfo expectedCulture = French;
 
-            EventMessage actual = new EventMessage(expectedMessage, expectedCulture);
+            LocalizableStringImpl actual = new LocalizableStringImpl(expectedMessage, expectedCulture);
 
             Assert.AreEqual(expectedMessage, actual.Localizations[expectedCulture]);
         }
 
         [TestMethod]
-        public void EventMessage_Ctor_Preferred_NullMessage_ThrowsArgumentNull()
+        public void LocalizableString_Ctor_Preferred_NullMessage_ThrowsArgumentNull()
         {
             ArgumentNullException exception =
                 Assert.ThrowsException<ArgumentNullException>(
-                    () => new EventMessage(localization: null!, German));
+                    () => new LocalizableStringImpl(localization: null!, German));
             Assert.AreEqual("localization", exception.ParamName);
         }
 
         [TestMethod]
-        public void EventMessage_Ctor_Preferred_NullCulture_ThrowsArgumentNull()
+        public void LocalizableString_Ctor_Preferred_NullCulture_ThrowsArgumentNull()
         {
             ArgumentNullException exception =
                 Assert.ThrowsException<ArgumentNullException>(
-                    () => new EventMessage(localization: "Hello", culture: null!));
+                    () => new LocalizableStringImpl(localization: "Hello", culture: null!));
             Assert.AreEqual("culture", exception.ParamName);
         }
 
         [TestMethod]
-        public void EventMessage_Ctor_Localizations_Succeeds()
+        public void LocalizableString_Ctor_Localizations_Succeeds()
         {
             Dictionary<CultureInfo, string> expectedMessages =
                 new Dictionary<CultureInfo, string>()
@@ -142,115 +142,131 @@ namespace Drexel.Loggers.Tests.Events
                     [Japanese] = "こんにちは",
                 };
 
-            EventMessage actual = new EventMessage(expectedMessages, French);
+            LocalizableStringImpl actual = new LocalizableStringImpl(expectedMessages, French);
 
             Assert.That.Equivalent(expectedMessages, actual.Localizations);
         }
 
         [TestMethod]
-        public void EventMessage_Ctor_Localizations_Null_ThrowsArgumentNull()
+        public void LocalizableString_Ctor_Localizations_Null_ThrowsArgumentNull()
         {
             ArgumentNullException exception =
                 Assert.ThrowsException<ArgumentNullException>(
-                    () => new EventMessage(localizations: null!, preferredCulture: null!));
+                    () => new LocalizableStringImpl(localizations: null!, preferredCulture: null!));
             Assert.AreEqual("localizations", exception.ParamName);
         }
 
         [DataTestMethod]
         [DynamicData(nameof(EqualityOperatorCases))]
-        public void EventMessage_EqualityOperator_AreEqual_Succeeds(EventMessage? left, EventMessage? right)
+        public void LocalizableString_EqualityOperator_AreEqual_Succeeds(
+            LocalizableStringImpl? left,
+            LocalizableStringImpl? right)
         {
             Assert.IsTrue(left == right);
         }
 
         [DataTestMethod]
         [DynamicData(nameof(InequalityOperatorCases))]
-        public void EventMEssage_EqualityOperator_AreNotEqual_Succeeds(EventMessage? left, EventMessage? right)
+        public void LocalizableString_EqualityOperator_AreNotEqual_Succeeds(
+            LocalizableStringImpl? left,
+            LocalizableStringImpl? right)
         {
             Assert.IsFalse(left == right);
         }
 
         [DataTestMethod]
         [DynamicData(nameof(EqualityOperatorCases))]
-        public void EventMessage_InequalityOperator_AreEqual_Succeeds(EventMessage? left, EventMessage? right)
+        public void LocalizableString_InequalityOperator_AreEqual_Succeeds(
+            LocalizableStringImpl? left,
+            LocalizableStringImpl? right)
         {
             Assert.IsFalse(left != right);
         }
 
         [DataTestMethod]
         [DynamicData(nameof(InequalityOperatorCases))]
-        public void EventMessage_InequalityOperator_AreNotEqual_Succeeds(EventMessage? left, EventMessage? right)
+        public void LocalizableString_InequalityOperator_AreNotEqual_Succeeds(
+            LocalizableStringImpl? left,
+            LocalizableStringImpl? right)
         {
             Assert.IsTrue(left!= right);
         }
 
         [DataTestMethod]
         [DynamicData(nameof(EqualsAreEqualCases))]
-        public void EventMessage_Equals_Object_AreEqual_Succeeds(EventMessage left, object? right)
+        public void LocalizableString_Equals_Object_AreEqual_Succeeds(
+            LocalizableStringImpl left,
+            object? right)
         {
             Assert.IsTrue(left.Equals(right));
         }
 
         [DataTestMethod]
         [DynamicData(nameof(EqualsAreNotEqualCases))]
-        public void EventMessage_Equals_Object_AreNotEqual_Succeeds(EventMessage left, object? right)
+        public void LocalizableString_Equals_Object_AreNotEqual_Succeeds(
+            LocalizableStringImpl left,
+            object? right)
         {
             Assert.IsFalse(left.Equals(right));
         }
 
         [DataTestMethod]
         [DynamicData(nameof(EqualsAreEqualCases))]
-        public void EventMessage_Equals_EventMessage_AreEqual_Succeeds(EventMessage left, EventMessage? right)
+        public void LocalizableString_Equals_LocalizableString_AreEqual_Succeeds(
+            LocalizableStringImpl left,
+            LocalizableStringImpl? right)
         {
             Assert.IsTrue(left.Equals(right));
         }
 
         [DataTestMethod]
         [DynamicData(nameof(EqualsAreNotEqualCases))]
-        public void EventMessage_Equals_EventMessage_AreNotEqual_Succeeds(EventMessage left, EventMessage? right)
+        public void LocalizableString_Equals_LocalizableString_AreNotEqual_Succeeds(
+            LocalizableStringImpl left,
+            LocalizableStringImpl? right)
         {
             Assert.IsFalse(left.Equals(right));
         }
 
         [TestMethod]
-        public void EventMessage_Equals_Culture_NullOther_Succeeds()
+        public void LocalizableString_Equals_Culture_NullOther_Succeeds()
         {
-            EventMessage left = new EventMessage("foo");
+            LocalizableStringImpl left = new LocalizableStringImpl("foo");
 
             Assert.IsFalse(left.Equals(null, null));
         }
 
         [TestMethod]
-        public void EventMessage_Equals_Culture_NullCulture_Succeeds()
+        public void LocalizableString_Equals_Culture_NullCulture_Succeeds()
         {
-            EventMessage left = new EventMessage("Foo", French);
-            EventMessage right = new EventMessage("Foo", German);
+            LocalizableStringImpl left = new LocalizableStringImpl("Foo", French);
+            LocalizableStringImpl right = new LocalizableStringImpl("Foo", German);
 
             Assert.IsTrue(left.Equals(right, null));
         }
 
         [TestMethod]
-        public void EventMEssage_Equals_Culture_Fallback_Succeeds()
+        public void LocalizableString_Equals_Culture_Fallback_Succeeds()
         {
-            EventMessage left = new EventMessage("Foo", French);
-            EventMessage right = new EventMessage("Foo", German);
+            LocalizableStringImpl left = new LocalizableStringImpl("Foo", French);
+            LocalizableStringImpl right = new LocalizableStringImpl("Foo", German);
 
             Assert.IsTrue(left.Equals(right, Japanese));
         }
 
         [TestMethod]
-        public void EventMessage_Equals_Culture_AreEqual_Succeeds()
+        public void LocalizableString_Equals_Culture_AreEqual_Succeeds()
         {
-            EventMessage left =
-                new EventMessage(
+            LocalizableStringImpl left =
+                new LocalizableStringImpl(
                     new Dictionary<CultureInfo, string>()
                     {
                         [French] = "foo",
                         [German] = "bar",
                     },
                     French);
-            EventMessage right =
-                new EventMessage(
+            LocalizableStringImpl right =
+                new LocalizableStringImpl(
                     new Dictionary<CultureInfo, string>()
                     {
                         [French] = "foo",
@@ -262,19 +278,19 @@ namespace Drexel.Loggers.Tests.Events
         }
 
         [TestMethod]
-        public void EventMessage_GetHashCode_Succeeds()
+        public void LocalizableString_GetHashCode_Succeeds()
         {
             const string message = "Foo";
 
-            EventMessage eventMessage = new EventMessage(message);
+            LocalizableStringImpl eventMessage = new LocalizableStringImpl(message);
 
             Assert.AreEqual(message.GetHashCode(), eventMessage.GetHashCode());
         }
 
         [TestMethod]
-        public void EventMessage_GetHashCode_NoLocalizations_Succeeds()
+        public void LocalizableString_GetHashCode_NoLocalizations_Succeeds()
         {
-            EventMessage eventMessage = new EventMessage(
+            LocalizableStringImpl eventMessage = new LocalizableStringImpl(
                 new Dictionary<CultureInfo, string>(),
                 CultureInfo.InvariantCulture);
 
@@ -283,7 +299,9 @@ namespace Drexel.Loggers.Tests.Events
 
         [DataTestMethod]
         [DataRow(nameof(EqualsAreEqualCases))]
-        public void EventMessage_GetHashCode_FollowsEqualityRules(EventMessage left, EventMessage right)
+        public void LocalizableString_GetHashCode_FollowsEqualityRules(
+            LocalizableStringImpl left,
+            LocalizableStringImpl right)
         {
             Assert.AreEqual(left.GetHashCode(), right.GetHashCode());
         }
