@@ -202,6 +202,12 @@ namespace Drexel.Loggers
             }
         }
 
+        /// <summary>
+        /// Returns the hash code of this instance's preferred localization.
+        /// </summary>
+        /// <returns>
+        /// The hash code of this instance's preferred localization.
+        /// </returns>
         public override int GetHashCode() => this.ToString().GetHashCode();
 
         public string ToString(CultureInfo? culture)
@@ -220,6 +226,12 @@ namespace Drexel.Loggers
             }
         }
 
+        /// <summary>
+        /// Returns the localization of this instance in this instance's preferred culture.
+        /// </summary>
+        /// <returns>
+        /// The localization of this instance in this instance's preferred culture.
+        /// </returns>
         public override string ToString() => this.ToString(null);
     }
 }

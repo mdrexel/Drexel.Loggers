@@ -148,12 +148,23 @@ namespace Drexel.Loggers.Tests
         }
 
         [TestMethod]
-        public void LocalizableString_Ctor_Localizations_Null_ThrowsArgumentNull()
+        public void LocalizableString_Ctor_Localizations_NullLocalizations_ThrowsArgumentNull()
         {
             ArgumentNullException exception =
                 Assert.ThrowsException<ArgumentNullException>(
                     () => new LocalizableStringImpl(localizations: null!, preferredCulture: null!));
             Assert.AreEqual("localizations", exception.ParamName);
+        }
+
+        [TestMethod]
+        public void LocalizableString_Ctor_Localizations_NullCulture_ThrowsArgumentNull()
+        {
+            ArgumentNullException exception =
+                Assert.ThrowsException<ArgumentNullException>(
+                    () => new LocalizableStringImpl(
+                        localizations: new Dictionary<CultureInfo, string>(0),
+                        preferredCulture: null!));
+            Assert.AreEqual("preferredCulture", exception.ParamName);
         }
 
         [DataTestMethod]
@@ -287,18 +298,8 @@ namespace Drexel.Loggers.Tests
             Assert.AreEqual(message.GetHashCode(), eventMessage.GetHashCode());
         }
 
-        [TestMethod]
-        public void LocalizableString_GetHashCode_NoLocalizations_Succeeds()
-        {
-            LocalizableStringImpl eventMessage = new LocalizableStringImpl(
-                new Dictionary<CultureInfo, string>(),
-                CultureInfo.InvariantCulture);
-
-            Assert.AreEqual(0, eventMessage.GetHashCode());
-        }
-
         [DataTestMethod]
-        [DataRow(nameof(EqualsAreEqualCases))]
+        [DynamicData(nameof(EqualsAreEqualCases))]
         public void LocalizableString_GetHashCode_FollowsEqualityRules(
             LocalizableStringImpl left,
             LocalizableStringImpl right)
