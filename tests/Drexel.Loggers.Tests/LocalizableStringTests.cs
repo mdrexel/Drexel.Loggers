@@ -4,6 +4,9 @@ using System.Globalization;
 using Drexel.Loggers.Tests.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+// TODO:
+// * CompareTo
+// * Culture-aware Equals
 namespace Drexel.Loggers.Tests
 {
     [TestClass]
