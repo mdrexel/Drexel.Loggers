@@ -17,14 +17,12 @@ namespace Drexel.Loggers
     public abstract class NonNullList<TItem, TDerived> : IReadOnlyList<TItem>
         where TDerived : NonNullList<TItem, TDerived>
     {
-        private readonly List<TItem> items;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="NonNullList{TItem, TDerived}"/> class.
         /// </summary>
         private protected NonNullList()
         {
-            this.items = new List<TItem>();
+            this.Items = new List<TItem>();
         }
 
         /// <summary>
@@ -38,71 +36,97 @@ namespace Drexel.Loggers
         /// </exception>
         private protected NonNullList(int capacity)
         {
-            this.items = new List<TItem>(capacity);
+            this.Items = new List<TItem>(capacity);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NonNullList{TItem, TDerived}"/> class.
         /// </summary>
-        /// <param name="items">
+        /// <param name="itemParams">
         /// The items that this list should contain.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown when <paramref name="items"/> is <see langword="null"/>.
+        /// Thrown when <paramref name="itemParams"/> is <see langword="null"/>.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// Thrown when a value contained by <paramref name="items"/> is <see langword="null"/>.
+        /// Thrown when a value contained by <paramref name="itemParams"/> is <see langword="null"/>.
         /// </exception>
-        private protected NonNullList(IReadOnlyCollection<TItem> items)
-            : this(items, items?.Count ?? 0)
+        private protected NonNullList(params TItem[] itemParams)
+            : this(itemParams, itemParams?.Length ?? 0, nameof(itemParams))
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NonNullList{TItem, TDerived}"/> class.
         /// </summary>
-        /// <param name="items">
+        /// <param name="collection">
+        /// The items that this list should contain.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="collection"/> is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown when a value contained by <paramref name="collection"/> is <see langword="null"/>.
+        /// </exception>
+        private protected NonNullList(IReadOnlyCollection<TItem> collection)
+            : this(collection, collection?.Count ?? 0, nameof(collection))
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NonNullList{TItem, TDerived}"/> class.
+        /// </summary>
+        /// <param name="enumerable">
         /// The items that this list should contain.
         /// </param>
         /// <param name="capacity">
         /// The initial capacity of the collection.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown when <paramref name="items"/> is <see langword="null"/>.
+        /// Thrown when <paramref name="enumerable"/> is <see langword="null"/>.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// Thrown when a value contained by <paramref name="items"/> is <see langword="null"/>.
+        /// Thrown when a value contained by <paramref name="enumerable"/> is <see langword="null"/>.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown when <paramref name="capacity"/> is less than zero.
         /// </exception>
-        private protected NonNullList(IEnumerable<TItem> items, int capacity = 0)
+        private protected NonNullList(IEnumerable<TItem> enumerable, int capacity = 0)
+            : this(enumerable, capacity, nameof(enumerable))
         {
-            if (items is null)
+        }
+
+        private NonNullList(IEnumerable<TItem> enumerable, int capacity, string enumerableParamName)
+        {
+            if (enumerable is null)
             {
-                throw new ArgumentNullException(nameof(items));
+                throw new ArgumentNullException(enumerableParamName);
             }
 
-            this.items = new List<TItem>(capacity);
-            using (IEnumerator<TItem> enumerator = items.GetEnumerator())
+            this.Items = new List<TItem>(capacity);
+            using (IEnumerator<TItem> enumerator = enumerable.GetEnumerator())
             {
                 for (int counter = 0; enumerator.MoveNext(); counter++)
                 {
                     if (enumerator.Current is null)
                     {
-                        throw new ArgumentException(Invariant($"Item at index {counter} is null."), nameof(items));
+                        throw new ArgumentException(
+                            Invariant($"Item at index {counter} is null."),
+                            enumerableParamName);
                     }
 
-                    this.items.Add(enumerator.Current);
+                    this.Items.Add(enumerator.Current);
                 }
             }
         }
 
-        public TItem this[int index] => this.items[index];
+        public TItem this[int index] => this.Items[index];
 
-        public int Count => this.items.Count;
+        public int Count => this.Items.Count;
 
         protected abstract TDerived AsDerived { get; }
+
+        protected List<TItem> Items { get; }
 
         /// <summary>
         /// Adds the specified item to this collection.
@@ -118,11 +142,11 @@ namespace Drexel.Loggers
         /// </exception>
         public TDerived Add(TItem item)
         {
-            this.items.Add(item ?? throw new ArgumentNullException(nameof(item)));
+            this.Items.Add(item ?? throw new ArgumentNullException(nameof(item)));
             return this.AsDerived;
         }
 
-        public IEnumerator<TItem> GetEnumerator() => this.items.GetEnumerator();
+        public IEnumerator<TItem> GetEnumerator() => this.Items.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
     }

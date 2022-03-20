@@ -3,7 +3,7 @@
 namespace Drexel.Loggers.Events
 {
     /// <summary>
-    /// Represents a collection of parameters associated with an event.
+    /// Represents an ordered collection of parameters associated with an event.
     /// </summary>
     public sealed class EventParameters : NonNullList<EventParameter, EventParameters>
     {
@@ -28,8 +28,8 @@ namespace Drexel.Loggers.Events
         /// Initializes a new instance of the <see cref="EventParameters"/> class.
         /// </summary>
         /// <inheritdoc/>
-        public EventParameters(IReadOnlyCollection<EventParameter> items)
-            : base(items)
+        public EventParameters(params EventParameter[] itemParams)
+            : base(itemParams)
         {
         }
 
@@ -37,8 +37,17 @@ namespace Drexel.Loggers.Events
         /// Initializes a new instance of the <see cref="EventParameters"/> class.
         /// </summary>
         /// <inheritdoc/>
-        public EventParameters(IEnumerable<EventParameter> items, int capacity = 0)
-            : base(items, capacity)
+        public EventParameters(IReadOnlyCollection<EventParameter> collection)
+            : base(collection)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EventParameters"/> class.
+        /// </summary>
+        /// <inheritdoc/>
+        public EventParameters(IEnumerable<EventParameter> enumerable, int capacity = 0)
+            : base(enumerable, capacity)
         {
         }
 

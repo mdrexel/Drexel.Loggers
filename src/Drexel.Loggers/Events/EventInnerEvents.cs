@@ -3,7 +3,7 @@
 namespace Drexel.Loggers.Events
 {
     /// <summary>
-    /// Represents a collection of inner events associated with an event.
+    /// Represents an ordered collection of inner events associated with an event.
     /// </summary>
     public sealed class EventInnerEvents : NonNullList<ILogEvent, EventInnerEvents>
     {
@@ -28,8 +28,8 @@ namespace Drexel.Loggers.Events
         /// Initializes a new instance of the <see cref="EventInnerEvents"/> class.
         /// </summary>
         /// <inheritdoc/>
-        public EventInnerEvents(IReadOnlyCollection<ILogEvent> items)
-            : base(items)
+        public EventInnerEvents(params ILogEvent[] itemParams)
+            : base(itemParams)
         {
         }
 
@@ -37,8 +37,17 @@ namespace Drexel.Loggers.Events
         /// Initializes a new instance of the <see cref="EventInnerEvents"/> class.
         /// </summary>
         /// <inheritdoc/>
-        public EventInnerEvents(IEnumerable<ILogEvent> items, int capacity = 0)
-            : base(items, capacity)
+        public EventInnerEvents(IReadOnlyCollection<ILogEvent> collection)
+            : base(collection)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EventInnerEvents"/> class.
+        /// </summary>
+        /// <inheritdoc/>
+        public EventInnerEvents(IEnumerable<ILogEvent> enumerable, int capacity = 0)
+            : base(enumerable, capacity)
         {
         }
 
