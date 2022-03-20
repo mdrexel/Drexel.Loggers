@@ -31,7 +31,7 @@ namespace Drexel.Loggers
         /// Gets the localizations of this instance.
         /// </summary>
         /// <value>
-        /// A dictionary of localizations. A localization is guaranteed to contain a value for this instance's
+        /// A dictionary of localizations. A localization is guaranteed to exist for for this instance's
         /// <see cref="PreferredCulture"/>.
         /// </value>
         IReadOnlyDictionary<CultureInfo, string> Localizations { get; }

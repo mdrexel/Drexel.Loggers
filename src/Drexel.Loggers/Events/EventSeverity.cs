@@ -19,7 +19,11 @@
         /// Indicates the event represents an error.
         /// </summary>
         /// <remarks>
-        /// An error typically indicates a failed or prematurely aborted operation.
+        /// An error typically indicates a failed or prematurely aborted operation. The failure may impact future
+        /// operations, but the failures occur in the application domain. (For example, attempting to create a resource
+        /// could fail with an error, leaving behind a partially-created resource that blocks future operations.
+        /// However, the system could still successfully process operations that do not interact with the
+        /// partially-created resource.)
         /// </remarks>
         Error,
 
@@ -42,10 +46,21 @@
         Information,
 
         /// <summary>
+        /// Indicates the event represents verbose information.
+        /// </summary>
+        /// <remarks>
+        /// A verbose event is similar to an <see cref="Information"/> event, but which is only expected to be
+        /// presented when the user opts in to additional information.
+        /// </remarks>
+        Verbose,
+
+        /// <summary>
         /// Indicates the event is intended for debug use.
         /// </summary>
         /// <remarks>
-        /// This severity can be used for any purpose by a developer, and has no strict definition.
+        /// This severity can be used for any purpose by a developer, and has no strict definition. It should only be
+        /// used for events that do not impact the success or failure of an operation, and which a user should not be
+        /// exposed to.
         /// </remarks>
         Debug,
     }
