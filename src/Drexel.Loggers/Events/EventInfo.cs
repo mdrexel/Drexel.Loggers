@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using static System.FormattableString;
 
 namespace Drexel.Loggers.Events
 {
     /// <summary>
     /// Represents information associated with an event.
     /// </summary>
+    [DebuggerDisplay("{ToStringDebug(),nq")]
     public sealed class EventInfo
     {
         /// <summary>
@@ -97,5 +100,10 @@ namespace Drexel.Loggers.Events
         /// Parameters describe inputs to the operation that raised the event, or internal state of the system.
         /// </remarks>
         public IReadOnlyList<EventParameter> Parameters { get; }
+
+        private string ToStringDebug()
+        {
+            return Invariant($"[{this.Code.DebugHumanReadableValue ?? this.Code.ToString()}] {this.Message}");
+        }
     }
 }

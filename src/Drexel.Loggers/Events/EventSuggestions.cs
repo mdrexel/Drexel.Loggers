@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Drexel.Loggers.Events
 {
     /// <summary>
     /// Represents a collection of suggestions associated with an event.
     /// </summary>
+    [DebuggerDisplay("Count = {Count,nq}")]
     public sealed class EventSuggestions : NonNullList<EventSuggestion, EventSuggestions>
     {
         /// <summary>

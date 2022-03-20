@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using static System.FormattableString;
 
 namespace Drexel.Loggers
@@ -14,6 +15,7 @@ namespace Drexel.Loggers
     /// <typeparam name="TDerived">
     /// The derived type.
     /// </typeparam>
+    [DebuggerDisplay("Count = {Count,nq}")]
     public abstract class NonNullList<TItem, TDerived> : IReadOnlyList<TItem>
         where TDerived : NonNullList<TItem, TDerived>
     {

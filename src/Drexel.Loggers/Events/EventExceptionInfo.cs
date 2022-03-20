@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Drexel.Loggers.Events
 {
     /// <summary>
     /// Represents information associated with an event describing an exception.
     /// </summary>
+    [DebuggerDisplay("[{Type,nq}] {Message,nq}")]
     public abstract class EventExceptionInfo
     {
         private protected EventExceptionInfo()
@@ -55,6 +57,7 @@ namespace Drexel.Loggers.Events
     /// <typeparam name="T">
     /// The type of the underlying exception.
     /// </typeparam>
+    [DebuggerDisplay("[{Type,nq}] {Message,nq}")]
     public sealed class EventExceptionInfo<T> : EventExceptionInfo
         where T : Exception
     {

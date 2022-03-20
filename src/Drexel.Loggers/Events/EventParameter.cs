@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Drexel.Loggers.Events
 {
     /// <summary>
     /// Represents a parameter associated with an event.
     /// </summary>
+    [DebuggerDisplay("[{Name,nq}] {Value ?? \"null\"},nq")]
     public sealed class EventParameter
     {
         /// <summary>

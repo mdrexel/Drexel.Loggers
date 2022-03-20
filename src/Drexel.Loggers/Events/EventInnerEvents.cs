@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Drexel.Loggers.Events
 {
     /// <summary>
     /// Represents an ordered collection of inner events associated with an event.
     /// </summary>
+    [DebuggerDisplay("Count = {Count,nq}")]
     public sealed class EventInnerEvents : NonNullList<ILogEvent, EventInnerEvents>
     {
         /// <summary>
