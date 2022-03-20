@@ -9,24 +9,22 @@ namespace Drexel.Loggers.Events
     [DebuggerDisplay("[{Type,nq}] {Message,nq}")]
     public abstract class EventExceptionInfo
     {
-        private protected EventExceptionInfo()
+        private protected EventExceptionInfo(
+            Exception exception)
         {
+            this.Exception = exception;
+            this.Type = exception.GetType();
         }
 
         /// <summary>
-        /// Gets the type of the underlying exception.
+        /// Gets the exception associated with the event.
         /// </summary>
-        public abstract Type Type { get; }
+        public Exception Exception { get; }
 
         /// <summary>
-        /// Gets the message of the underlying exception.
+        /// Gets the type of the exception.
         /// </summary>
-        public abstract string Message { get; }
-
-        /// <summary>
-        /// Gets the stacktrace of the underlying exception.
-        /// </summary>
-        public abstract string StackTrace { get; }
+        public Type Type { get; }
 
         /// <summary>
         /// Creates an instance of <see cref="EventExceptionInfo{T}"/> derived from the specified
@@ -47,7 +45,7 @@ namespace Drexel.Loggers.Events
         public static EventExceptionInfo<T> Create<T>(T exception)
             where T : Exception
         {
-            return new EventExceptionInfo<T>(exception ?? throw new ArgumentNullException(nameof(exception)));
+            return new EventExceptionInfo<T>(exception);
         }
     }
 
@@ -71,19 +69,14 @@ namespace Drexel.Loggers.Events
         /// Thrown when <paramref name="exception"/> is <see langword="null"/>.
         /// </exception>
         public EventExceptionInfo(T exception)
+            : base(exception ?? throw new ArgumentNullException(nameof(exception)))
         {
-            this.Exception = exception ?? throw new ArgumentNullException(nameof(exception));
+            this.Exception = exception;
         }
 
         /// <summary>
         /// Gets the underlying exception.
         /// </summary>
-        public T Exception { get; }
-
-        public override Type Type => typeof(T);
-
-        public override string Message => this.Exception.Message;
-
-        public override string StackTrace => this.Exception.StackTrace;
+        public new T Exception { get; }
     }
 }
