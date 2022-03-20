@@ -10,7 +10,6 @@ namespace Drexel.Loggers.Events
     [DebuggerDisplay("{ToStringDebug(),nq}")]
     public sealed class EventCode : IEquatable<EventCode>, IComparable<EventCode>
     {
-        private readonly string? debugHumanReadableValue;
         private readonly string stringRepresentation;
 
         /// <summary>
@@ -39,7 +38,7 @@ namespace Drexel.Loggers.Events
         {
             this.Group = group ?? throw new ArgumentNullException(nameof(group));
             this.Value = value;
-            this.debugHumanReadableValue = debugHumanReadableValue;
+            this.DebugHumanReadableValue = debugHumanReadableValue;
 
             // `TryAdd` is documented as throwing `OverflowException` when the `ConcurrentDictionary` cannot hold any
             // more items (the limit is hard-coded at `int32.MaxValue`), but because `value` is `ushort`, we cannot
@@ -63,6 +62,11 @@ namespace Drexel.Loggers.Events
         /// Gets the value of this event code.
         /// </summary>
         public ushort Value { get; }
+
+        /// <summary>
+        /// Gets an optional human-readable name displayed when debugging.
+        /// </summary>
+        internal string? DebugHumanReadableValue { get; }
 
         public static bool operator ==(EventCode? left, EventCode? right)
         {
@@ -141,13 +145,13 @@ namespace Drexel.Loggers.Events
 
         private string ToStringDebug()
         {
-            if (this.debugHumanReadableValue is null)
+            if (this.DebugHumanReadableValue is null)
             {
                 return Invariant($"({this.stringRepresentation})");
             }
             else
             {
-                return Invariant($"({this.stringRepresentation}) {this.debugHumanReadableValue}");
+                return Invariant($"({this.stringRepresentation}) {this.DebugHumanReadableValue}");
             }
         }
     }

@@ -1,59 +1,47 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Drexel.Loggers.Events
 {
     /// <summary>
     /// Represents a collection of suggestions associated with an event.
     /// </summary>
-    public sealed class EventSuggestions : IReadOnlyList<EventSuggestion>
+    public sealed class EventSuggestions : NonNullList<EventSuggestion, EventSuggestions>
     {
-        private List<EventSuggestion> suggestions;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="EventSuggestions"/> class.
         /// </summary>
+        /// <inheritdoc/>
         public EventSuggestions()
         {
-            this.suggestions = new List<EventSuggestion>();
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EventSuggestions"/> class.
         /// </summary>
-        /// <param name="capacity">
-        /// The initial capacity of the suggestions collection.
-        /// </param>
+        /// <inheritdoc/>
         public EventSuggestions(int capacity)
+            : base(capacity)
         {
-            this.suggestions = new List<EventSuggestion>(capacity);
         }
-
-        public EventSuggestion this[int index] => this.suggestions[index];
-
-        public int Count => this.suggestions.Count;
 
         /// <summary>
-        /// Adds the specified suggestion to this collection.
+        /// Initializes a new instance of the <see cref="EventSuggestions"/> class.
         /// </summary>
-        /// <param name="suggestion">
-        /// The suggestion to add.
-        /// </param>
-        /// <returns>
-        /// This instance.
-        /// </returns>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown when <paramref name="suggestion"/> is <see langword="null"/>.
-        /// </exception>
-        public EventSuggestions Add(EventSuggestion suggestion)
+        /// <inheritdoc/>
+        public EventSuggestions(IReadOnlyCollection<EventSuggestion> items)
+            : base(items)
         {
-            this.suggestions.Add(suggestion ?? throw new ArgumentNullException(nameof(suggestion)));
-            return this;
         }
 
-        public IEnumerator<EventSuggestion> GetEnumerator() => this.suggestions.GetEnumerator();
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EventSuggestions"/> class.
+        /// </summary>
+        /// <inheritdoc/>
+        public EventSuggestions(IEnumerable<EventSuggestion> items, int capacity = 0)
+            : base(items, capacity)
+        {
+        }
 
-        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+        protected override EventSuggestions AsDerived => this;
     }
 }
