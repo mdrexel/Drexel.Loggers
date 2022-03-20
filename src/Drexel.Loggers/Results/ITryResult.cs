@@ -62,13 +62,9 @@ namespace Drexel.Loggers.Results
     /// </typeparam>
     public interface ITryResult<out T> : ITryResult
     {
-        /// <summary>
-        /// Gets the value returned by this operation.
-        /// </summary>
-        /// <value>
-        /// When <see cref="ITryResult.IsSuccess"/> is <see langword="true"/>, the value returned by this operation;
-        /// otherwise, undefined.
-        /// </value>
         T Value { get; }
+
+        // TODO: Prevent caller from accessing `Value` without the result being successful/populated?
+        bool TryGetValue(out T value);
     }
 }

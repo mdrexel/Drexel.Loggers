@@ -32,6 +32,8 @@ namespace Drexel.Loggers.Results
             this.IsSuccess = !isUnsuccessful;
         }
 
+        public static implicit operator bool(TryResult result) => result.IsSuccess;
+
         public bool IsSuccess { get; protected set; }
 
         protected List<ILogEvent> AllEvents;
@@ -158,6 +160,7 @@ namespace Drexel.Loggers.Results
                 throw new ArgumentNullException(nameof(result));
             }
 
+            // TODO: only grab value if `result.IsSuccess`?
             value = result.Value;
 
             this.AllEvents.AddRange(result.AllEvents);
@@ -173,9 +176,13 @@ namespace Drexel.Loggers.Results
     /// <summary>
     /// Represents a mutable result of an operation that returns a result.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">
+    /// The type of the value returned by the operation.
+    /// </typeparam>
     public class TryResult<T> : TryResult, ITryResult<T>
     {
+        private bool
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TryResult"/> class.
         /// </summary>
