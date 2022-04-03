@@ -99,6 +99,9 @@ namespace Drexel.Loggers.Events
             }
         }
 
+        internal static EventCodeGroup GetOrAdd(ushort id, string? debugHumanReadableName = null) =>
+            EventCodeGroup.Existing.GetOrAdd(id, _ => new EventCodeGroup(id, debugHumanReadableName));
+
         public int CompareTo(EventCodeGroup other)
         {
             if (other is null)

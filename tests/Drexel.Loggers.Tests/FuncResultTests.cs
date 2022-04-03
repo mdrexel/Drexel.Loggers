@@ -8,62 +8,62 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Drexel.Loggers.Tests
 {
     [TestClass]
-    public sealed class ActionResultTests
+    public sealed class FuncResultTests
     {
         [TestMethod]
-        public void ActionResult_Ctor_Succeeds()
+        public void FuncResult_Ctor_Succeeds()
         {
-            ActionResult result = new ActionResult();
+            FuncResult<string?> result = new FuncResult<string?>();
 
             Assert.IsTrue(result.Success);
         }
 
         [TestMethod]
-        public void ActionResult_Ctor_ExplicitlyUnsuccessful_Succeeds()
+        public void FuncResult_Ctor_ExplicitlyUnsuccessful_Succeeds()
         {
-            ActionResult result = new ActionResult(isUnsuccessful: true);
+            FuncResult<string?> result = new FuncResult<string?>(isUnsuccessful: true);
 
             Assert.IsFalse(result.Success);
         }
 
         [TestMethod]
-        public void ActionResult_Implicit_Bool_Successful_Succeeds()
+        public void FuncResult_Implicit_Bool_Successful_Succeeds()
         {
-            ActionResult result = new ActionResult();
+            FuncResult<string?> result = new FuncResult<string?>();
 
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void ActionResult_Implicit_Bool_Unsuccessful_Succeeds()
+        public void FuncResult_Implicit_Bool_Unsuccessful_Succeeds()
         {
-            ActionResult result = new ActionResult(isUnsuccessful: true);
+            FuncResult<string?> result = new FuncResult<string?>(isUnsuccessful: true);
 
             Assert.IsFalse(result);
         }
 
         [TestMethod]
-        public void ActionResult_Not_Successful_Succeeds()
+        public void FuncResult_Not_Successful_Succeeds()
         {
-            ActionResult result = new ActionResult();
+            FuncResult<string?> result = new FuncResult<string?>();
 
             Assert.IsFalse(!result);
         }
 
         [TestMethod]
-        public void ActionResult_Not_Unsuccessful_Succeeds()
+        public void FuncResult_Not_Unsuccessful_Succeeds()
         {
-            ActionResult result = new ActionResult(isUnsuccessful: true);
+            FuncResult<string?> result = new FuncResult<string?>(isUnsuccessful: true);
 
             Assert.IsTrue(!result);
         }
 
         [TestMethod]
-        public void ActionResult_AddError_Succeeds()
+        public void FuncResult_AddError_Succeeds()
         {
             ILogEvent @event = TestEvents.Template.Create();
 
-            ActionResult result = new ActionResult();
+            FuncResult<string?> result = new FuncResult<string?>();
 
             Assert.IsTrue(result.Success);
             Assert.AreSame(result, result.AddError(@event));
@@ -76,18 +76,18 @@ namespace Drexel.Loggers.Tests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void ActionResult_AddError_Null_ThrowsArgumentNull()
+        public void FuncResult_AddError_Null_ThrowsArgumentNull()
         {
-            ActionResult result = new ActionResult();
+            FuncResult<string?> result = new FuncResult<string?>();
             result.AddError(null!);
         }
 
         [TestMethod]
-        public void ActionResult_AddInformational_Succeeds()
+        public void FuncResult_AddInformational_Succeeds()
         {
             ILogEvent @event = TestEvents.Template.Create();
 
-            ActionResult result = new ActionResult();
+            FuncResult<string?> result = new FuncResult<string?>();
 
             Assert.IsTrue(result.Success);
             Assert.AreSame(result, result.AddInformational(@event));
@@ -100,21 +100,21 @@ namespace Drexel.Loggers.Tests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void ActionResult_AddInformational_Null_ThrowsArgumentNull()
+        public void FuncResult_AddInformational_Null_ThrowsArgumentNull()
         {
-            ActionResult result = new ActionResult();
+            FuncResult<string?> result = new FuncResult<string?>();
             result.AddInformational(null!);
         }
 
         [TestMethod]
-        public void ActionResult_AddResult_IActionResult_ImplicitlyUnsuccessfulResult_Succeeds()
+        public void FuncResult_AddResult_IActionResult_ImplicitlyUnsuccessfulResult_Succeeds()
         {
             ILogEvent @event = TestEvents.Template.Create();
 
             ActionResult inner = new ActionResult();
             inner.AddError(@event);
 
-            ActionResult outer = new ActionResult();
+            FuncResult<string?> outer = new FuncResult<string?>();
 
             Assert.IsTrue(outer.Success);
             Assert.AreSame(outer, outer.AddResult(inner));
@@ -126,11 +126,11 @@ namespace Drexel.Loggers.Tests
         }
 
         [TestMethod]
-        public void ActionResult_AddResult_IActionResult_ExplicitlyUnsuccessfulResult_Succeeds()
+        public void FuncResult_AddResult_IActionResult_ExplicitlyUnsuccessfulResult_Succeeds()
         {
             ActionResult inner = new ActionResult(true);
 
-            ActionResult outer = new ActionResult();
+            FuncResult<string?> outer = new FuncResult<string?>();
 
             Assert.IsTrue(outer.Success);
             Assert.AreSame(outer, outer.AddResult(inner));
@@ -142,14 +142,14 @@ namespace Drexel.Loggers.Tests
         }
 
         [TestMethod]
-        public void ActionResult_AddResult_IActionResult_SuccessfulResult_Succeeds()
+        public void FuncResult_AddResult_IActionResult_SuccessfulResult_Succeeds()
         {
             ILogEvent @event = TestEvents.Template.Create();
 
             ActionResult inner = new ActionResult();
             inner.AddInformational(@event);
 
-            ActionResult outer = new ActionResult();
+            FuncResult<string?> outer = new FuncResult<string?>();
 
             Assert.IsTrue(outer.Success);
             Assert.AreSame(outer, outer.AddResult(inner));
@@ -162,9 +162,9 @@ namespace Drexel.Loggers.Tests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void ActionResult_AddResult_IActionResult_Null_ThrowsArgumentNull()
+        public void FuncResult_AddResult_IFuncResult_Null_ThrowsArgumentNull()
         {
-            ActionResult result = new ActionResult();
+            FuncResult<string?> result = new FuncResult<string?>();
             result.AddResult(null!);
         }
     }
