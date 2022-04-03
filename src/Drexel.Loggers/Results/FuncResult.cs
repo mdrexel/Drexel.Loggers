@@ -184,6 +184,6 @@ namespace Drexel.Loggers.Results
             this.value.SetValue(newValue, out oldValue);
 
         public bool TryAddValue(TValue value, out TValue currentValue) =>
-            this.value.TryAddValue(value, out currentValue)
+            this.value.TryAddValue(value, out currentValue);
     }
 }

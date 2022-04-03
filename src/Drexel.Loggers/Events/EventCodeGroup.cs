@@ -19,7 +19,10 @@ namespace Drexel.Loggers.Events
 
         static EventCodeGroup()
         {
-            EventCodeGroup.Existing = new ConcurrentDictionary<ushort, EventCodeGroup>();
+            EventCodeGroup.Existing =
+                new ConcurrentDictionary<ushort, EventCodeGroup>();
+            EventCodeGroup.Groups =
+                new ReadOnlyCollectionCollectionAdapter<EventCodeGroup>(EventCodeGroup.Existing.Values);
         }
 
         /// <summary>
@@ -55,8 +58,7 @@ namespace Drexel.Loggers.Events
             this.EventCodes = new ReadOnlyCollectionCollectionAdapter<EventCode>(this.MutableEventCodes.Values);
         }
 
-        public static IReadOnlyCollection<EventCodeGroup> Groups { get; } =
-            new ReadOnlyCollectionCollectionAdapter<EventCodeGroup>(EventCodeGroup.Existing!.Values);
+        public static IReadOnlyCollection<EventCodeGroup> Groups { get; }
 
         /// <summary>
         /// Gets the ID of this event code group.

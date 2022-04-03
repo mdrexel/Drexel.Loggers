@@ -36,5 +36,17 @@ namespace Drexel.Loggers.Events
             : base(localizations, preferredCulture)
         {
         }
+
+        public static implicit operator EventSuggestion?(string? value)
+        {
+            if (value is null)
+            {
+                return null;
+            }
+            else
+            {
+                return new EventSuggestion(value);
+            }
+        }
     }
 }

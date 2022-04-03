@@ -169,7 +169,9 @@ namespace Drexel.Loggers.Templates
             EventInnerEvents? innerEvents)
             where TException : Exception;
     }
-
+    /// <summary>
+    /// A simple implementation of <see cref="ILogEventTemplate{T}"/>.
+    /// </summary>
     public sealed class LogEventTemplate : LogEventTemplate<ILogEvent>
     {
         /// <summary>
