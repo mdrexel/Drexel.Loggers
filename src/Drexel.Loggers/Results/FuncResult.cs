@@ -87,14 +87,17 @@ namespace Drexel.Loggers.Results
             return this;
         }
 
+        public bool GetValue(out TValue value) =>
+            this.value.GetValue(out value);
+
         public bool RemoveValue(out TValue value) =>
             this.value.RemoveValue(out value);
 
         public bool SetValue(TValue newValue, out TValue oldValue) =>
             this.value.SetValue(newValue, out oldValue);
 
-        public bool TryAddValue(TValue value, out TValue existingValue) =>
-            this.value.TryAddValue(value, out existingValue);
+        public bool TryAddValue(TValue value, out TValue currentValue) =>
+            this.value.TryAddValue(value, out currentValue);
     }
 
     /// <summary>
@@ -176,6 +179,9 @@ namespace Drexel.Loggers.Results
             base.AddResult(result, out value);
             return this;
         }
+
+        public bool GetValue(out TValue value) =>
+            this.value.GetValue(out value);
 
         public bool RemoveValue(out TValue value) =>
             this.value.RemoveValue(out value);

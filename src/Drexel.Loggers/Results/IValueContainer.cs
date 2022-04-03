@@ -6,7 +6,7 @@
     /// <typeparam name="T">
     /// The type of value contained by the container.
     /// </typeparam>
-    public interface IValueContainer<T> : IReadOnlyValueContainer<T>
+    public interface IValueContainer<T> : IInvariantReadOnlyValueContainer<T>
     {
         /// <summary>
         /// Removes the value contained by this instance, if one exists.

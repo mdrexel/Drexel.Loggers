@@ -3,18 +3,37 @@
     internal sealed class ValueContainer<T> : IValueContainer<T>
     {
         private readonly object sync;
+        private bool hasValue;
+        private T value;
 
         public ValueContainer()
         {
             this.sync = new object();
 
-            this.HasValue = false;
-            this.Value = default!;
+            this.hasValue = false;
+            this.value = default!;
         }
 
-        public bool HasValue { get; private set; }
+        public bool HasValue => this.hasValue;
 
-        public T Value { get; private set; }
+        public T Value => this.value;
+
+        public bool GetValue(out T value)
+        {
+            lock (this.sync)
+            {
+                if (this.hasValue)
+                {
+                    value = this.value;
+                    return true;
+                }
+                else
+                {
+                    value = default!;
+                    return false;
+                }
+            }
+        }
 
         public bool RemoveValue(out T value)
         {
@@ -22,8 +41,9 @@
             {
                 if (this.HasValue)
                 {
-                    value = this.Value;
-                    this.Value = default!;
+                    value = this.value;
+                    this.hasValue = false;
+                    this.value = default!;
                     return true;
                 }
                 else
@@ -41,33 +61,34 @@
                 bool hadValue = this.HasValue;
                 if (hadValue)
                 {
-                    oldValue = this.Value;
+                    oldValue = this.value;
                 }
                 else
                 {
                     oldValue = default!;
                 }
 
-                this.Value = newValue;
-                this.HasValue = true;
+                this.value = newValue;
+                this.hasValue = true;
 
                 return hadValue;
             }
         }
 
-        public bool TryAddValue(T value, out T existingValue)
+        public bool TryAddValue(T value, out T currentValue)
         {
             lock (this.sync)
             {
                 if (this.HasValue)
                 {
-                    existingValue = this.Value;
+                    currentValue = this.value;
                     return false;
                 }
                 else
                 {
-                    existingValue = default!;
-                    this.Value = value;
+                    currentValue = default!;
+                    this.value = value;
+                    this.hasValue = true;
                     return true;
                 }
             }
