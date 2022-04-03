@@ -7,14 +7,21 @@ namespace Drexel.Loggers.Results
     /// <summary>
     /// Represents a mutable result of an operation.
     /// </summary>
-    public sealed class TryResult : ITryResult
+    public class ActionResult : IActionResult
     {
         private readonly List<IResultEvent> allEvents;
         private readonly List<IResultEvent> errors;
         private readonly List<IResultEvent> informationals;
 
+        private protected ActionResult()
+        {
+            this.allEvents = new List<IResultEvent>();
+            this.errors = new List<IResultEvent>();
+            this.informationals = new List<IResultEvent>();
+        }
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="TryResult"/> class.
+        /// Initializes a new instance of the <see cref="ActionResult"/> class.
         /// </summary>
         /// <param name="isUnsuccessful">
         /// A value indicating whether this result should be considered unsuccessful even if it contains no errors.
@@ -22,19 +29,17 @@ namespace Drexel.Loggers.Results
         /// otherwise, <see langword="false"/>. Note that a value of <see langword="false"/> means the result will
         /// still be unsuccessful <b>if the result contains any errors</b>.
         /// </param>
-        public TryResult(bool isUnsuccessful = false)
+        public ActionResult(bool isUnsuccessful = false)
+            : this()
         {
             this.Success = !isUnsuccessful;
-            this.allEvents = new List<IResultEvent>();
-            this.errors = new List<IResultEvent>();
-            this.informationals = new List<IResultEvent>();
         }
 
-        public static implicit operator bool(TryResult result) => result.Success;
+        public static implicit operator bool(ActionResult result) => result.Success;
 
-        public static bool operator !(TryResult result) => !result.Success;
+        public static bool operator !(ActionResult result) => !result.Success;
 
-        public bool Success { get; private set; }
+        public bool Success { get; protected set; }
 
         public IReadOnlyList<IResultEvent> AllEvents => this.allEvents;
 
@@ -55,9 +60,9 @@ namespace Drexel.Loggers.Results
         /// Thrown when <paramref name="error"/> is <see langword="null"/>.
         /// </exception>
         /// <remarks>
-        /// Adding an error to this instance will mean <see cref="Success"/> will be set to <see langword="false"/>.
+        /// Adding an error to this instance means <see cref="Success"/> will be set to <see langword="false"/>.
         /// </remarks>
-        public TryResult AddError(ILogEvent error)
+        public ActionResult AddError(ILogEvent error)
         {
             if (error is null)
             {
@@ -85,7 +90,7 @@ namespace Drexel.Loggers.Results
         /// <exception cref="ArgumentNullException">
         /// Thrown when <paramref name="informational"/> is <see langword="null"/>.
         /// </exception>
-        public TryResult AddInformational(ILogEvent informational)
+        public ActionResult AddInformational(ILogEvent informational)
         {
             if (informational is null)
             {
@@ -112,9 +117,9 @@ namespace Drexel.Loggers.Results
         /// Thrown when <paramref name="result"/> is <see langword="null"/>.
         /// </exception>
         /// <remarks>
-        /// Note that adding a result that is unsuccessful, means this instance will become unsuccessful.
+        /// Note that adding a result that is unsuccessful means this instance will become unsuccessful.
         /// </remarks>
-        public TryResult AddResult(ITryResult result)
+        public ActionResult AddResult(IActionResult result)
         {
             if (result is null)
             {
@@ -152,14 +157,14 @@ namespace Drexel.Loggers.Results
         /// </exception>
         /// <remarks>
         /// Note that <paramref name="value"/> may be <see langword="null"/> if <paramref name="result"/> does not
-        /// contain a value. Because the <see cref="IValueResult{T}"/> interface declares the value of the
-        /// <see cref="IValueResult{T}.Value"/> property to be undefined when <see cref="IValueResult{T}.HasValue"/> is
-        /// <see langword="false"/>, accessing <see cref="IValueResult{T}.Value"/> could do something unexpected, like
+        /// contain a value. Because the <see cref="IFuncResult{T}"/> interface declares the value of the
+        /// <see cref="IFuncResult{T}.Value"/> property to be undefined when <see cref="IFuncResult{T}.HasValue"/> is
+        /// <see langword="false"/>, accessing <see cref="IFuncResult{T}.Value"/> could do something unexpected, like
         /// throw an exception. To avoid unexpected exceptions, a default value is used instead. If you're using the
         /// C# nullable reference feature, make sure <typeparamref name="T"/> is declared correctly to avoid
         /// <see langword="null"/> escaping.
         /// </remarks>
-        public TryResult AddResult<T>(IValueResult<T> result, out T value)
+        public ActionResult AddResult<T>(IFuncResult<T> result, out T value)
         {
             if (result is null)
             {
@@ -184,15 +189,22 @@ namespace Drexel.Loggers.Results
     /// <typeparam name="TEvent">
     /// The type of event returned by the operation.
     /// </typeparam>
-    public sealed class TryResult<TEvent> : ITryResult<TEvent>
+    public class ActionResult<TEvent> : ITryResult<TEvent>
         where TEvent : ILogEvent
     {
         private readonly List<IResultEvent<TEvent>> allEvents;
         private readonly List<IResultEvent<TEvent>> errors;
         private readonly List<IResultEvent<TEvent>> informationals;
 
+        private protected ActionResult()
+        {
+            this.allEvents = new List<IResultEvent<TEvent>>();
+            this.errors = new List<IResultEvent<TEvent>>();
+            this.informationals = new List<IResultEvent<TEvent>>();
+        }
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="TryResult"/> class.
+        /// Initializes a new instance of the <see cref="ActionResult"/> class.
         /// </summary>
         /// <param name="isUnsuccessful">
         /// A value indicating whether this result should be considered unsuccessful even if it contains no errors.
@@ -200,19 +212,17 @@ namespace Drexel.Loggers.Results
         /// otherwise, <see langword="false"/>. Note that a value of <see langword="false"/> means the result will
         /// still be unsuccessful <b>if the result contains any errors</b>.
         /// </param>
-        public TryResult(bool isUnsuccessful = false)
+        public ActionResult(bool isUnsuccessful = false)
+            : this()
         {
             this.Success = !isUnsuccessful;
-            this.allEvents = new List<IResultEvent<TEvent>>();
-            this.errors = new List<IResultEvent<TEvent>>();
-            this.informationals = new List<IResultEvent<TEvent>>();
         }
 
-        public static implicit operator bool(TryResult<TEvent> result) => result.Success;
+        public static implicit operator bool(ActionResult<TEvent> result) => result.Success;
 
-        public static bool operator !(TryResult<TEvent> result) => !result.Success;
+        public static bool operator !(ActionResult<TEvent> result) => !result.Success;
 
-        public bool Success { get; private set; }
+        public bool Success { get; protected set; }
 
         public IReadOnlyList<IResultEvent<TEvent>> AllEvents => this.allEvents;
 
@@ -220,11 +230,11 @@ namespace Drexel.Loggers.Results
 
         public IReadOnlyList<IResultEvent<TEvent>> Informationals => this.informationals;
 
-        IReadOnlyList<IResultEvent> ITryResult.AllEvents => this.allEvents;
+        IReadOnlyList<IResultEvent> IActionResult.AllEvents => this.allEvents;
 
-        IReadOnlyList<IResultEvent> ITryResult.Errors => this.errors;
+        IReadOnlyList<IResultEvent> IActionResult.Errors => this.errors;
 
-        IReadOnlyList<IResultEvent> ITryResult.Informationals => this.informationals;
+        IReadOnlyList<IResultEvent> IActionResult.Informationals => this.informationals;
 
         /// <summary>
         /// Adds the specified event to this instance as an error.
@@ -241,7 +251,7 @@ namespace Drexel.Loggers.Results
         /// <remarks>
         /// Adding an error to this instance will mean <see cref="Success"/> will be set to <see langword="false"/>.
         /// </remarks>
-        public TryResult<TEvent> AddError(TEvent error)
+        public ActionResult<TEvent> AddError(TEvent error)
         {
             if (error is null)
             {
@@ -269,7 +279,7 @@ namespace Drexel.Loggers.Results
         /// <exception cref="ArgumentNullException">
         /// Thrown when <paramref name="informational"/> is <see langword="null"/>.
         /// </exception>
-        public TryResult<TEvent> AddInformational(TEvent informational)
+        public ActionResult<TEvent> AddInformational(TEvent informational)
         {
             if (informational is null)
             {
@@ -296,9 +306,9 @@ namespace Drexel.Loggers.Results
         /// Thrown when <paramref name="result"/> is <see langword="null"/>.
         /// </exception>
         /// <remarks>
-        /// Note that adding a result that is unsuccessful, means this instance will become unsuccessful.
+        /// Note that adding a result that is unsuccessful means this instance will become unsuccessful.
         /// </remarks>
-        public TryResult<TEvent> AddResult(ITryResult<TEvent> result)
+        public ActionResult<TEvent> AddResult(ITryResult<TEvent> result)
         {
             if (result is null)
             {
@@ -339,14 +349,14 @@ namespace Drexel.Loggers.Results
         /// </exception>
         /// <remarks>
         /// Note that <paramref name="value"/> may be <see langword="null"/> if <paramref name="result"/> does not
-        /// contain a value. Because the <see cref="IValueResult{T}"/> interface declares the value of the
-        /// <see cref="IValueResult{T}.Value"/> property to be undefined when <see cref="IValueResult{T}.HasValue"/> is
-        /// <see langword="false"/>, accessing <see cref="IValueResult{T}.Value"/> could do something unexpected, like
+        /// contain a value. Because the <see cref="IFuncResult{T}"/> interface declares the value of the
+        /// <see cref="IFuncResult{T}.Value"/> property to be undefined when <see cref="IFuncResult{T}.HasValue"/> is
+        /// <see langword="false"/>, accessing <see cref="IFuncResult{T}.Value"/> could do something unexpected, like
         /// throw an exception. To avoid unexpected exceptions, a default value is used instead. If you're using the
         /// C# nullable reference feature, make sure <typeparamref name="TValue"/> is declared correctly to avoid
         /// <see langword="null"/> escaping.
         /// </remarks>
-        public TryResult<TEvent> AddResult<TValue>(IValueResult<TEvent, TValue> result, out TValue value)
+        public ActionResult<TEvent> AddResult<TValue>(IValueResult<TEvent, TValue> result, out TValue value)
         {
             if (result is null)
             {

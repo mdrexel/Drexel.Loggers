@@ -66,7 +66,23 @@ namespace Drexel.Loggers.Results
             Func<IResultEvent, T> onError,
             Func<IResultEvent, T> onInformational)
         {
-            throw new NotImplementedException();
+            if (onError is null)
+            {
+                throw new ArgumentNullException(nameof(onError));
+            }
+            else if (onInformational is null)
+            {
+                throw new ArgumentNullException(nameof(onInformational));
+            }
+
+            if (this.isError)
+            {
+                return onError.Invoke(this);
+            }
+            else
+            {
+                return onInformational.Invoke(this);
+            }
         }
     }
 

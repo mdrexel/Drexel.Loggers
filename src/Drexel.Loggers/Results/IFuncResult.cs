@@ -9,20 +9,8 @@ namespace Drexel.Loggers.Results
     /// The type of value returned by the operation.
     /// </typeparam>
     /// 
-    public interface IValueResult<out T> : ITryResult
+    public interface IFuncResult<out T> : IActionResult, IReadOnlyValueContainer<T>
     {
-        /// <summary>
-        /// Gets a value indicating whether this result contains a value.
-        /// </summary>
-        /// <value>
-        /// <see langword="true"/> if this result contains a value; otherwise, <see langword="false"/>.
-        /// </value>
-        bool HasValue { get; }
-
-        /// <summary>
-        /// Gets the value returned by the operation, if this result contains a value. Otherwise, undefined.
-        /// </summary>
-        T Value { get; }
     }
 
     /// <summary>
@@ -34,7 +22,7 @@ namespace Drexel.Loggers.Results
     /// <typeparam name="TValue">
     /// The type of value returned by the operation.
     /// </typeparam>
-    public interface IValueResult<out TEvent, out TValue> : IValueResult<TValue>, ITryResult<TEvent>
+    public interface IValueResult<out TEvent, out TValue> : IFuncResult<TValue>, ITryResult<TEvent>
         where TEvent : ILogEvent
     {
     }

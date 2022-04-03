@@ -6,7 +6,7 @@ namespace Drexel.Loggers.Results
     /// <summary>
     /// Represents the result of an operation.
     /// </summary>
-    public interface ITryResult
+    public interface IActionResult
     {
         /// <summary>
         /// Gets a value indicating whether the operation was successful.
@@ -60,16 +60,16 @@ namespace Drexel.Loggers.Results
     /// <typeparam name="TEvent">
     /// The type of event returned by the operation.
     /// </typeparam>
-    public interface ITryResult<out TEvent> : ITryResult
+    public interface ITryResult<out TEvent> : IActionResult
         where TEvent : ILogEvent
     {
-        /// <inheritdoc cref="ITryResult.AllEvents"/>
+        /// <inheritdoc cref="IActionResult.AllEvents"/>
         new IReadOnlyList<IResultEvent<TEvent>> AllEvents { get; }
 
-        /// <inheritdoc cref="ITryResult.Errors"/>
+        /// <inheritdoc cref="IActionResult.Errors"/>
         new IReadOnlyList<IResultEvent<TEvent>> Errors { get; }
 
-        /// <inheritdoc cref="ITryResult.Informationals"/>
+        /// <inheritdoc cref="IActionResult.Informationals"/>
         new IReadOnlyList<IResultEvent<TEvent>> Informationals { get; }
     }
 }
