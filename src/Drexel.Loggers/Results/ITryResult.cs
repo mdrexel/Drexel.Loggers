@@ -14,7 +14,7 @@ namespace Drexel.Loggers.Results
         /// <value>
         /// <see langword="true"/> if the operation was successful; otherwise, <see langword="false"/>.
         /// </value>
-        bool IsSuccess { get; }
+        bool Success { get; }
 
         /// <summary>
         /// Gets all events that occurred during the operation, in the order that they occurred.
@@ -26,7 +26,7 @@ namespace Drexel.Loggers.Results
         /// <remarks>
         /// This property contains all events included in <see cref="Errors"/> and <see cref="Informationals"/>.
         /// </remarks>
-        IReadOnlyList<ILogEvent> AllEvents { get; }
+        IReadOnlyList<IResultEvent> AllEvents { get; }
 
         /// <summary>
         /// Gets all errors that occurred during the operation, in the order that they occurred.
@@ -36,10 +36,10 @@ namespace Drexel.Loggers.Results
         /// and all contained values are guaranteed to be non-<see langword="null"/>.
         /// </value>
         /// <remarks>
-        /// An error is an event that caused the operation to abort prematurely. When <see cref="IsSuccess"/> is
+        /// An error is an event that caused the operation to abort prematurely. When <see cref="Success"/> is
         /// <see langword="true"/>, this list is guaranteed to be empty.
         /// </remarks>
-        IReadOnlyList<ILogEvent> Errors { get; }
+        IReadOnlyList<IResultEvent> Errors { get; }
 
         /// <summary>
         /// Gets all informational events that occurred during the operation, in the order that they occurred.
@@ -51,20 +51,25 @@ namespace Drexel.Loggers.Results
         /// <remarks>
         /// An informational event is a non-error event that occurred during the operation.
         /// </remarks>
-        IReadOnlyList<ILogEvent> Informationals { get; }
+        IReadOnlyList<IResultEvent> Informationals { get; }
     }
 
     /// <summary>
-    /// Represents the result of an operation that returns a value.
+    /// Represents the result of an operation with strongly-typed events.
     /// </summary>
-    /// <typeparam name="T">
-    /// The type of returned value.
+    /// <typeparam name="TEvent">
+    /// The type of event returned by the operation.
     /// </typeparam>
-    public interface ITryResult<out T> : ITryResult
+    public interface ITryResult<out TEvent> : ITryResult
+        where TEvent : ILogEvent
     {
-        T Value { get; }
+        /// <inheritdoc cref="ITryResult.AllEvents"/>
+        new IReadOnlyList<IResultEvent<TEvent>> AllEvents { get; }
 
-        // TODO: Prevent caller from accessing `Value` without the result being successful/populated?
-        bool TryGetValue(out T value);
+        /// <inheritdoc cref="ITryResult.Errors"/>
+        new IReadOnlyList<IResultEvent<TEvent>> Errors { get; }
+
+        /// <inheritdoc cref="ITryResult.Informationals"/>
+        new IReadOnlyList<IResultEvent<TEvent>> Informationals { get; }
     }
 }
