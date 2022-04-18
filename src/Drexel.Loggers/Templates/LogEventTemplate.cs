@@ -13,6 +13,27 @@ namespace Drexel.Loggers.Templates
     public abstract class LogEventTemplate<T> : ILogEventTemplate<T>
         where T : ILogEvent
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LogEventTemplate{T}"/> class.
+        /// </summary>
+        /// <param name="code">
+        /// The event code of events produced using this template.
+        /// </param>
+        /// <param name="severity">
+        /// The severity of events produced using this template.
+        /// </param>
+        /// <param name="message">
+        /// The message of events produced using this template.
+        /// </param>
+        /// <param name="defaultReason">
+        /// The default reason of events produced using this template, if one exists.
+        /// </param>
+        /// <param name="defaultSuggestions">
+        /// The default suggestions of events produced using this template, if any exist.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// Thronw when <paramref name="code"/> or <paramref name="message"/> is <see langword="null"/>.
+        /// </exception>
         public LogEventTemplate(
             EventCode code,
             EventSeverity severity,
@@ -27,14 +48,29 @@ namespace Drexel.Loggers.Templates
             this.DefaultSuggestions = defaultSuggestions;
         }
 
+        /// <summary>
+        /// Gets the event code used when producing events.
+        /// </summary>
         public EventCode Code { get; }
 
+        /// <summary>
+        /// Gets the severity used when producing events.
+        /// </summary>
         public EventSeverity Severity { get; }
 
+        /// <summary>
+        /// Gets the message used when producing events.
+        /// </summary>
         public EventMessage Message { get; }
 
+        /// <summary>
+        /// Gets the default reason used when producing events, if one exists.
+        /// </summary>
         public virtual EventReason? DefaultReason { get; }
 
+        /// <summary>
+        /// Gets the default suggestions used when producing events, if any exist.
+        /// </summary>
         public virtual EventSuggestions? DefaultSuggestions { get; }
 
         /// <summary>
@@ -183,6 +219,9 @@ namespace Drexel.Loggers.Templates
         /// <param name="code">
         /// The code associated with the event template.
         /// </param>
+        /// <param name="severity">
+        /// The severity associated with the event template.
+        /// </param>
         /// <param name="message">
         /// The message associated with the event template.
         /// </param>
@@ -212,6 +251,7 @@ namespace Drexel.Loggers.Templates
         {
         }
 
+        /// <inheritdoc/>
         protected override ILogEvent CreateInternal(
             EventCode code,
             EventSeverity severity,
@@ -233,6 +273,7 @@ namespace Drexel.Loggers.Templates
                 innerEvents);
         }
 
+        /// <inheritdoc/>
         protected override ILogEvent CreateInternal<TException>(
             TException? exception,
             EventCode code,

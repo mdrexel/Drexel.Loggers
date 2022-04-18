@@ -35,16 +35,22 @@ namespace Drexel.Loggers.Results
             this.Success = !isUnsuccessful;
         }
 
+        /// <inheritdoc/>
         public static implicit operator bool(ActionResult result) => result.Success;
 
+        /// <inheritdoc/>
         public static bool operator !(ActionResult result) => !result.Success;
 
+        /// <inheritdoc/>
         public bool Success { get; protected set; }
 
+        /// <inheritdoc/>
         public IReadOnlyList<IResultEvent> AllEvents => this.allEvents;
 
+        /// <inheritdoc/>
         public IReadOnlyList<IResultEvent> Errors => this.errors;
 
+        /// <inheritdoc/>
         public IReadOnlyList<IResultEvent> Informationals => this.informationals;
 
         /// <summary>
@@ -179,7 +185,7 @@ namespace Drexel.Loggers.Results
         /// <remarks>
         /// Note that <paramref name="value"/> may be <see langword="null"/> if <paramref name="result"/> does not
         /// contain a value. Because the <see cref="IFuncResult{T}"/> interface declares the value of the
-        /// <see cref="IReadOnlyValueContainer{T}.Value}"/> property to be undefined when
+        /// <see cref="IReadOnlyValueContainer{T}.Value"/> property to be undefined when
         /// <see cref="IReadOnlyValueContainer{T}.HasValue"/> is
         /// <see langword="false"/>, accessing <see cref="IReadOnlyValueContainer{T}.Value"/> could do something
         /// unexpected, like throw an exception. To avoid unexpected exceptions, a default value is used instead. If
@@ -256,16 +262,22 @@ namespace Drexel.Loggers.Results
             this.Success = !isUnsuccessful;
         }
 
+        /// <inheritdoc/>
         public static implicit operator bool(ActionResult<TEvent> result) => result.Success;
 
+        /// <inheritdoc/>
         public static bool operator !(ActionResult<TEvent> result) => !result.Success;
 
+        /// <inheritdoc/>
         public bool Success { get; protected set; }
 
+        /// <inheritdoc/>
         public IReadOnlyList<IResultEvent<TEvent>> AllEvents => this.allEvents;
 
+        /// <inheritdoc/>
         public IReadOnlyList<IResultEvent<TEvent>> Errors => this.errors;
 
+        /// <inheritdoc/>
         public IReadOnlyList<IResultEvent<TEvent>> Informationals => this.informationals;
 
         IReadOnlyList<IResultEvent> IActionResult.AllEvents => this.allEvents;
@@ -383,9 +395,6 @@ namespace Drexel.Loggers.Results
         /// <summary>
         /// Adds the specified result to this instance.
         /// </summary>
-        /// <typeparam name="T">
-        /// The type of event returned by the operation that produced <paramref name="result"/>.
-        /// </typeparam>
         /// <typeparam name="TValue">
         /// The type of value returned by the operation that produced <paramref name="result"/>.
         /// </typeparam>
@@ -413,8 +422,8 @@ namespace Drexel.Loggers.Results
         /// <see cref="IReadOnlyValueContainer{T}.HasValue"/> is
         /// <see langword="false"/>, accessing <see cref="IReadOnlyValueContainer{T}.Value"/> could do something
         /// unexpected, like throw an exception. To avoid unexpected exceptions, a default value is used instead. If
-        /// you're using the C# nullable reference feature, make sure <typeparamref name="T"/> is declared correctly to
-        /// avoid <see langword="null"/> escaping.
+        /// you're using the C# nullable reference feature, make sure <typeparamref name="TValue"/> is declared
+        /// correctly to avoid <see langword="null"/> escaping.
         /// </remarks>
         public ActionResult<TEvent> AddResult<TValue>(
             IValueResult<TEvent, TValue> result,

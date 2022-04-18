@@ -29,6 +29,7 @@ namespace Drexel.Loggers.Results
             this.isError = isError;
         }
 
+        /// <inheritdoc/>
         public ILogEvent Event { get; }
 
         /// <inheritdoc cref="IResultEvent.Operation(Action{IResultEvent}, Action{IResultEvent})"/>
@@ -116,6 +117,7 @@ namespace Drexel.Loggers.Results
             this.isError = isError;
         }
 
+        /// <inheritdoc/>
         public TEvent Event { get; }
 
         ILogEvent IResultEvent.Event => this.Event;

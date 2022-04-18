@@ -122,12 +122,20 @@ namespace Drexel.Loggers
             }
         }
 
+        /// <inheritdoc/>
         public TItem this[int index] => this.Items[index];
 
+        /// <inheritdoc/>
         public int Count => this.Items.Count;
 
+        /// <summary>
+        /// Gets this instance as the derived type.
+        /// </summary>
         protected abstract TDerived AsDerived { get; }
 
+        /// <summary>
+        /// Gets a mutable list of the items contained by this instance.
+        /// </summary>
         protected List<TItem> Items { get; }
 
         /// <summary>
@@ -148,6 +156,7 @@ namespace Drexel.Loggers
             return this.AsDerived;
         }
 
+        /// <inheritdoc/>
         public IEnumerator<TItem> GetEnumerator() => this.Items.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();

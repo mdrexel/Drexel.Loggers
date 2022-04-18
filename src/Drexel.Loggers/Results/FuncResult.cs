@@ -11,10 +11,10 @@ namespace Drexel.Loggers.Results
     /// <remarks>
     /// When using the nullable reference types language feature, make sure to declare your nullability correctly.
     /// When an instance of <see cref="FuncResult{T}"/> is initialized, the value contained by this result will be set
-    /// to <see langword="default"/>, which is <see langword="null"/> for any <typeparamref name="T"/> that is a
-    /// <see langword="class"/>. Because <typeparamref name="T"/> could be a <see langword="struct"/>, the
+    /// to <see langword="default"/>, which is <see langword="null"/> for any <typeparamref name="TValue"/> that is a
+    /// <see langword="class"/>. Because <typeparamref name="TValue"/> could be a <see langword="struct"/>, the
     /// interface must declare the value to be non-nullable. This means that, if you do not specify
-    /// <typeparamref name="T"/> to be nullable, you must make sure you always populate this property before
+    /// <typeparamref name="TValue"/> to be nullable, you must make sure you always populate this property before
     /// returning the result object, or else you may unexpectedly return a value of <see langword="null"/>.
     /// </remarks>
     public sealed class FuncResult<TValue> :
@@ -41,12 +41,16 @@ namespace Drexel.Loggers.Results
             this.Success = !isUnsuccessful;
         }
 
+        /// <inheritdoc/>
         public static implicit operator bool(FuncResult<TValue> result) => result.Success;
 
+        /// <inheritdoc/>
         public static bool operator !(FuncResult<TValue> result) => !result.Success;
 
+        /// <inheritdoc/>
         public bool HasValue => this.value.HasValue;
 
+        /// <inheritdoc/>
         public TValue Value => this.value.Value;
 
         /// <inheritdoc cref="ActionResult.AddError(ILogEvent)"/>
@@ -82,24 +86,31 @@ namespace Drexel.Loggers.Results
             return this;
         }
 
+        /// <inheritdoc/>
         public bool GetValue(out TValue value) =>
             this.value.GetValue(out value);
 
+        /// <inheritdoc/>
         public bool RemoveValue() =>
             this.value.RemoveValue();
 
+        /// <inheritdoc/>
         public bool RemoveValue(out TValue value) =>
             this.value.RemoveValue(out value);
 
+        /// <inheritdoc/>
         public bool SetValue(TValue newValue) =>
             this.value.SetValue(newValue);
 
+        /// <inheritdoc/>
         public bool SetValue(TValue newValue, out TValue oldValue) =>
             this.value.SetValue(newValue, out oldValue);
 
+        /// <inheritdoc/>
         public bool TryAddValue(TValue value) =>
             this.value.TryAddValue(value);
 
+        /// <inheritdoc/>
         public bool TryAddValue(TValue value, out TValue currentValue) =>
             this.value.TryAddValue(value, out currentValue);
     }
@@ -117,9 +128,9 @@ namespace Drexel.Loggers.Results
     /// When using the nullable reference types language feature, make sure to declare your nullability correctly.
     /// When an instance of <see cref="FuncResult{TEvent, TValue}"/> is initialized, the value contained by this
     /// result will be set to <see langword="default"/>, which is <see langword="null"/> for any
-    /// <typeparamref name="T"/> that is a <see langword="class"/>. Because <typeparamref name="T"/> could be a
-    /// <see langword="struct"/>, the interface must declare the value to be non-nullable. This means that, if you do
-    /// not specify <typeparamref name="T"/> to be nullable, you must make sure you always populate this property
+    /// <typeparamref name="TValue"/> that is a <see langword="class"/>. Because <typeparamref name="TValue"/> could be
+    /// a <see langword="struct"/>, the interface must declare the value to be non-nullable. This means that, if you do
+    /// not specify <typeparamref name="TValue"/> to be nullable, you must make sure you always populate this property
     /// before returning the result object, or else you may unexpectedly return a value of <see langword="null"/>.
     /// </remarks>
     public sealed class FuncResult<TEvent, TValue> :
@@ -146,12 +157,16 @@ namespace Drexel.Loggers.Results
             this.Success = !isUnsuccessful;
         }
 
+        /// <inheritdoc/>
         public static implicit operator bool(FuncResult<TEvent, TValue> result) => result.Success;
 
+        /// <inheritdoc/>
         public static bool operator !(FuncResult<TEvent, TValue> result) => !result.Success;
 
+        /// <inheritdoc/>
         public bool HasValue => this.value.HasValue;
 
+        /// <inheritdoc/>
         public TValue Value => this.value.Value;
 
         /// <inheritdoc cref="ActionResult{TEvent}.AddError(TEvent)"/>
@@ -187,24 +202,31 @@ namespace Drexel.Loggers.Results
             return this;
         }
 
+        /// <inheritdoc/>
         public bool GetValue(out TValue value) =>
             this.value.GetValue(out value);
 
+        /// <inheritdoc/>
         public bool RemoveValue() =>
             this.value.RemoveValue();
 
+        /// <inheritdoc/>
         public bool RemoveValue(out TValue value) =>
             this.value.RemoveValue(out value);
 
+        /// <inheritdoc/>
         public bool SetValue(TValue newValue) =>
             this.value.SetValue(newValue);
 
+        /// <inheritdoc/>
         public bool SetValue(TValue newValue, out TValue oldValue) =>
             this.value.SetValue(newValue, out oldValue);
 
+        /// <inheritdoc/>
         public bool TryAddValue(TValue value) =>
             this.value.TryAddValue(value);
 
+        /// <inheritdoc/>
         public bool TryAddValue(TValue value, out TValue currentValue) =>
             this.value.TryAddValue(value, out currentValue);
     }

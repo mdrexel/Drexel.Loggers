@@ -89,8 +89,10 @@ namespace Drexel.Loggers
             this.PreferredCulture = preferredCulture ?? throw new ArgumentNullException(nameof(preferredCulture));
         }
 
+        /// <inheritdoc/>
         public CultureInfo PreferredCulture { get; protected set; }
 
+        /// <inheritdoc/>
         public IReadOnlyDictionary<CultureInfo, string> Localizations { get; protected set; }
 
         /// <summary>
@@ -102,7 +104,7 @@ namespace Drexel.Loggers
         /// </param>
         /// <param name="right">
         /// The right value.
-        /// /param>
+        /// </param>
         /// <returns>
         /// <see langword="true"/> if <paramref name="left"/> and <paramref name="right"/> are both
         /// <see langword="null"/>, or have the same string in their preferred cultures; otherwise,
@@ -148,6 +150,7 @@ namespace Drexel.Loggers
             }
         }
 
+        /// <inheritdoc/>
         public int CompareTo(TDerived? other, CultureInfo? culture, CompareOptions options = CompareOptions.None)
         {
             if (other is null)
@@ -161,8 +164,10 @@ namespace Drexel.Loggers
             return (culture ?? this.PreferredCulture).CompareInfo.Compare(left, right, options);
         }
 
+        /// <inheritdoc/>
         public int CompareTo(TDerived? other) => this.CompareTo(other, null);
 
+        /// <inheritdoc/>
         public bool Equals(TDerived? other, CultureInfo? culture, CompareOptions options = CompareOptions.None)
         {
             if (other is null)
@@ -176,8 +181,10 @@ namespace Drexel.Loggers
             return (culture ?? this.PreferredCulture).CompareInfo.Compare(left, right, options) == 0;
         }
 
+        /// <inheritdoc/>
         public bool Equals(TDerived? other) => this.Equals(other, null);
 
+        /// <inheritdoc/>
         public bool Equals(object? obj, CultureInfo? culture, CompareOptions options = CompareOptions.None)
         {
             if (obj is TDerived other)
@@ -190,6 +197,7 @@ namespace Drexel.Loggers
             }
         }
 
+        /// <inheritdoc/>
         public override bool Equals(object? obj)
         {
             if (obj is TDerived other)
@@ -210,6 +218,7 @@ namespace Drexel.Loggers
         /// </returns>
         public override int GetHashCode() => this.ToString().GetHashCode();
 
+        /// <inheritdoc/>
         public string ToString(CultureInfo? culture)
         {
             if (culture is null)

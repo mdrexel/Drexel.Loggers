@@ -37,6 +37,7 @@ namespace Drexel.Loggers.Events
         {
         }
 
+        /// <inheritdoc/>
         [return: System.Diagnostics.CodeAnalysis.NotNullIfNotNull("value")]
         public static implicit operator EventMessage?(string? value)
         {

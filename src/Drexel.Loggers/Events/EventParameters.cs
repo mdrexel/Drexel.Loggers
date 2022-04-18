@@ -53,6 +53,7 @@ namespace Drexel.Loggers.Events
         {
         }
 
+        /// <inheritdoc/>
         protected override EventParameters AsDerived => this;
     }
 }

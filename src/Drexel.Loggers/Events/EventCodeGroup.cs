@@ -58,6 +58,9 @@ namespace Drexel.Loggers.Events
             this.EventCodes = new ReadOnlyCollectionCollectionAdapter<EventCode>(this.MutableEventCodes.Values);
         }
 
+        /// <summary>
+        /// Gets the event code groups.
+        /// </summary>
         public static IReadOnlyCollection<EventCodeGroup> Groups { get; }
 
         /// <summary>
@@ -75,6 +78,7 @@ namespace Drexel.Loggers.Events
         /// </summary>
         internal ConcurrentDictionary<ushort, EventCode> MutableEventCodes { get; }
 
+        /// <inheritdoc/>
         public static bool operator ==(EventCodeGroup? left, EventCodeGroup? right)
         {
             if (left is null)
@@ -87,6 +91,7 @@ namespace Drexel.Loggers.Events
             }
         }
 
+        /// <inheritdoc/>
         public static bool operator !=(EventCodeGroup? left, EventCodeGroup? right)
         {
             if (left is null)
@@ -102,6 +107,7 @@ namespace Drexel.Loggers.Events
         internal static EventCodeGroup GetOrAdd(ushort id, string? debugHumanReadableName = null) =>
             EventCodeGroup.Existing.GetOrAdd(id, _ => new EventCodeGroup(id, debugHumanReadableName));
 
+        /// <inheritdoc/>
         public int CompareTo(EventCodeGroup other)
         {
             if (other is null)
@@ -115,6 +121,7 @@ namespace Drexel.Loggers.Events
             }
         }
 
+        /// <inheritdoc/>
         public bool Equals(EventCodeGroup? other)
         {
             if (other is null)
@@ -125,6 +132,7 @@ namespace Drexel.Loggers.Events
             return this.Id == other.Id;
         }
 
+        /// <inheritdoc/>
         public override bool Equals(object? obj)
         {
             if (obj is EventCodeGroup other)
@@ -137,8 +145,15 @@ namespace Drexel.Loggers.Events
             }
         }
 
+        /// <summary>
+        /// Gets the hash code of the event code group.
+        /// </summary>
+        /// <returns>
+        /// The hash code of the event code group.
+        /// </returns>
         public override int GetHashCode() => this.Id;
 
+        /// <inheritdoc/>
         public override string ToString() => this.Id.ToString(CultureInfo.InvariantCulture);
 
         private string ToStringDebug()

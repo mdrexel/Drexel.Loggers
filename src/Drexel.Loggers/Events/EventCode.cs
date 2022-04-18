@@ -68,6 +68,7 @@ namespace Drexel.Loggers.Events
         /// </summary>
         internal string? DebugHumanReadableValue { get; }
 
+        /// <inheritdoc/>
         public static bool operator ==(EventCode? left, EventCode? right)
         {
             if (left is null)
@@ -80,6 +81,7 @@ namespace Drexel.Loggers.Events
             }
         }
 
+        /// <inheritdoc/>
         public static bool operator !=(EventCode? left, EventCode? right)
         {
             if (left is null)
@@ -92,6 +94,7 @@ namespace Drexel.Loggers.Events
             }
         }
 
+        /// <inheritdoc/>
         public int CompareTo(EventCode? other)
         {
             if (other is null)
@@ -114,6 +117,7 @@ namespace Drexel.Loggers.Events
             }
         }
 
+        /// <inheritdoc/>
         public bool Equals(EventCode? other)
         {
             if (other is null)
@@ -127,6 +131,7 @@ namespace Drexel.Loggers.Events
             }
         }
 
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             if (obj is EventCode other)
@@ -139,8 +144,15 @@ namespace Drexel.Loggers.Events
             }
         }
 
+        /// <summary>
+        /// Gets the hash code of the event code.
+        /// </summary>
+        /// <returns>
+        /// The hash code of the event code.
+        /// </returns>
         public override int GetHashCode() => unchecked((((int)this.Group.Id) << 16) | this.Value);
 
+        /// <inheritdoc/>
         public override string ToString() => this.stringRepresentation;
 
         private string ToStringDebug()

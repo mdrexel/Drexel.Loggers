@@ -63,10 +63,10 @@ namespace Drexel.Loggers
         int CompareTo(TDerived? other, CultureInfo? culture, CompareOptions options = CompareOptions.None);
 
         /// <summary>
-        /// Returns a value indicating whether the instance specified by <paramref name="obj"/> is equal to this
+        /// Returns a value indicating whether the instance specified by <paramref name="other"/> is equal to this
         /// instance in the culture specified by <paramref name="culture"/>.
         /// </summary>
-        /// <param name="obj">
+        /// <param name="other">
         /// The instance to compare this instance to.
         /// </param>
         /// <param name="culture">
@@ -78,7 +78,7 @@ namespace Drexel.Loggers
         /// An optional value indicating the options that should be used by the comparison.
         /// </param>
         /// <returns>
-        /// <see langword="true"/> if this instance is equal to the object specified by <paramref name="obj"/> in the
+        /// <see langword="true"/> if this instance is equal to the object specified by <paramref name="other"/> in the
         /// culture specified by <paramref name="culture"/> according to the specified options; otherwise,
         /// <see langword="false"/>.
         /// </returns>
