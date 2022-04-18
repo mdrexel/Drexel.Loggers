@@ -8,7 +8,7 @@ namespace Drexel.Loggers.Events
     /// <summary>
     /// Represents information associated with an event.
     /// </summary>
-    [DebuggerDisplay("{ToStringDebug(),nq")]
+    [DebuggerDisplay("{ToStringDebug(),nq}")]
     public sealed class EventInfo
     {
         /// <summary>

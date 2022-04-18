@@ -5,7 +5,7 @@ using static System.FormattableString;
 
 namespace Drexel.Loggers.Events
 {
-    [DebuggerDisplay("{ToStringDebug,nq}")]
+    [DebuggerDisplay("{ToStringDebug(),nq}")]
     public class LogEvent : ILogEvent
     {
         public LogEvent(

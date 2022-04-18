@@ -50,7 +50,7 @@ namespace Drexel.Loggers.Events
                     nameof(value));
             }
 
-            this.stringRepresentation = Invariant($"{group.Id}-{value}");
+            this.stringRepresentation = Invariant($"{group.Id}:{value}");
         }
 
         /// <summary>
