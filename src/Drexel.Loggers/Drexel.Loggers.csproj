@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -13,5 +13,16 @@
     </PackageReference>
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
   </ItemGroup>
+
+  <PropertyGroup>
+    <Version>1.0.0</Version>
+    <Authors>Max Drexel</Authors>
+    <Description>C# library defining logging primitives.</Description>
+    <Copyright>Copyright 2022</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/mdrexel/Drexel.Loggers</PackageProjectUrl>
+    <PackageTags>logging logger event events TryResult ActionResult FuncResult drexel</PackageTags>
+    <PackageReleaseNotes>1.0.0: Initial release</PackageReleaseNotes>
+  </PropertyGroup>
 
 </Project>
