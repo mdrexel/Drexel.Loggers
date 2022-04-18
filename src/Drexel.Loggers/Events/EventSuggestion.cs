@@ -37,6 +37,7 @@ namespace Drexel.Loggers.Events
         {
         }
 
+        [return: System.Diagnostics.CodeAnalysis.NotNullIfNotNull("value")]
         public static implicit operator EventSuggestion?(string? value)
         {
             if (value is null)

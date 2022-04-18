@@ -15,11 +15,13 @@ namespace Drexel.Loggers.Templates
     {
         public LogEventTemplate(
             EventCode code,
+            EventSeverity severity,
             EventMessage message,
             EventReason? defaultReason = null,
             EventSuggestions? defaultSuggestions = null)
         {
             this.Code = code ?? throw new ArgumentNullException(nameof(code));
+            this.Severity = severity;
             this.Message = message ?? throw new ArgumentNullException(nameof(message));
             this.DefaultReason = defaultReason;
             this.DefaultSuggestions = defaultSuggestions;
@@ -27,9 +29,9 @@ namespace Drexel.Loggers.Templates
 
         public EventCode Code { get; }
 
-        public EventMessage Message { get; }
-
         public EventSeverity Severity { get; }
+
+        public EventMessage Message { get; }
 
         public virtual EventReason? DefaultReason { get; }
 
@@ -51,8 +53,8 @@ namespace Drexel.Loggers.Templates
             return
                 this.CreateInternal(
                     this.Code ?? throw new InvalidOperationException("Event template code illegally null."),
-                    this.Message ?? throw new InvalidOperationException("Event template message illegally null."),
                     this.Severity,
+                    this.Message ?? throw new InvalidOperationException("Event template message illegally null."),
                     reason ?? this.DefaultReason,
                     suggestions ?? this.DefaultSuggestions,
                     parameters,
@@ -79,8 +81,8 @@ namespace Drexel.Loggers.Templates
                 this.CreateInternal<TException>(
                     exception,
                     this.Code ?? throw new InvalidOperationException("Event template code illegally null."),
-                    this.Message ?? throw new InvalidOperationException("Event template message illegally null."),
                     this.Severity,
+                    this.Message ?? throw new InvalidOperationException("Event template message illegally null."),
                     reason ?? this.DefaultReason,
                     suggestions ?? this.DefaultSuggestions,
                     parameters,
@@ -94,11 +96,11 @@ namespace Drexel.Loggers.Templates
         /// <param name="code">
         /// The event code associated with the event. This value is guaranteed to be non-<see langword="null"/>.
         /// </param>
-        /// <param name="message">
-        /// The message associated with the event. This value is guaranteed to be non-<see langword="null"/>.
-        /// </param>
         /// <param name="severity">
         /// The severity associated with the event.
+        /// </param>
+        /// <param name="message">
+        /// The message associated with the event. This value is guaranteed to be non-<see langword="null"/>.
         /// </param>
         /// <param name="reason">
         /// The reason associated with the event. May be <see langword="null"/> if no reason was supplied and the
@@ -119,8 +121,8 @@ namespace Drexel.Loggers.Templates
         /// </returns>
         protected abstract T CreateInternal(
             EventCode code,
-            EventMessage message,
             EventSeverity severity,
+            EventMessage message,
             EventReason? reason,
             EventSuggestions? suggestions,
             EventParameters? parameters,
@@ -135,11 +137,11 @@ namespace Drexel.Loggers.Templates
         /// <param name="code">
         /// The event code associated with the event. This value is guaranteed to be non-<see langword="null"/>.
         /// </param>
-        /// <param name="message">
-        /// The message associated with the event. This value is guaranteed to be non-<see langword="null"/>.
-        /// </param>
         /// <param name="severity">
         /// The severity associated with the event.
+        /// </param>
+        /// <param name="message">
+        /// The message associated with the event. This value is guaranteed to be non-<see langword="null"/>.
         /// </param>
         /// <param name="reason">
         /// The reason associated with the event. May be <see langword="null"/> if no reason was supplied and the
@@ -161,14 +163,15 @@ namespace Drexel.Loggers.Templates
         protected abstract T CreateInternal<TException>(
             TException? exception,
             EventCode code,
-            EventMessage message,
             EventSeverity severity,
+            EventMessage message,
             EventReason? reason,
             EventSuggestions? suggestions,
             EventParameters? parameters,
             EventInnerEvents? innerEvents)
             where TException : Exception;
     }
+
     /// <summary>
     /// A simple implementation of <see cref="ILogEventTemplate{T}"/>.
     /// </summary>
@@ -196,11 +199,13 @@ namespace Drexel.Loggers.Templates
         /// </exception>
         public LogEventTemplate(
             EventCode code,
+            EventSeverity severity,
             EventMessage message,
             EventReason? defaultReason = null,
             EventSuggestions? defaultSuggestions = null)
             : base(
                   code,
+                  severity,
                   message,
                   defaultReason,
                   defaultSuggestions)
@@ -209,8 +214,8 @@ namespace Drexel.Loggers.Templates
 
         protected override ILogEvent CreateInternal(
             EventCode code,
-            EventMessage message,
             EventSeverity severity,
+            EventMessage message,
             EventReason? reason,
             EventSuggestions? suggestions,
             EventParameters? parameters,
@@ -231,8 +236,8 @@ namespace Drexel.Loggers.Templates
         protected override ILogEvent CreateInternal<TException>(
             TException? exception,
             EventCode code,
-            EventMessage message,
             EventSeverity severity,
+            EventMessage message,
             EventReason? reason,
             EventSuggestions? suggestions,
             EventParameters? parameters,

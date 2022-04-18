@@ -67,7 +67,9 @@ namespace Drexel.Loggers.Results
         /// <see cref="IInvariantReadOnlyValueContainer{T}.GetValue(out T)"/> method with a thread-safe implementation
         /// instead if possible.
         /// </remarks>
-        public static bool GetValue<T>(this IReadOnlyValueContainer<T> container, out T value)
+        public static bool GetValue<T>(
+            this IReadOnlyValueContainer<T> container,
+            [System.Diagnostics.CodeAnalysis.MaybeNullWhen(false)] out T value)
         {
             if (container is null)
             {
