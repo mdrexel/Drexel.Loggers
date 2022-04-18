@@ -35,6 +35,23 @@
             }
         }
 
+        public bool RemoveValue()
+        {
+            lock (this.sync)
+            {
+                if (this.HasValue)
+                {
+                    this.hasValue = false;
+                    this.value = default!;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
         public bool RemoveValue(out T value)
         {
             lock (this.sync)
@@ -51,6 +68,19 @@
                     value = default!;
                     return false;
                 }
+            }
+        }
+
+        public bool SetValue(T newValue)
+        {
+            lock (this.sync)
+            {
+                bool hadValue = this.HasValue;
+
+                this.value = newValue;
+                this.hasValue = true;
+
+                return hadValue;
             }
         }
 
@@ -72,6 +102,23 @@
                 this.hasValue = true;
 
                 return hadValue;
+            }
+        }
+
+        public bool TryAddValue(T value)
+        {
+            lock (this.sync)
+            {
+                if (this.hasValue)
+                {
+                    return false;
+                }
+                else
+                {
+                    this.value = value;
+                    this.hasValue = true;
+                    return true;
+                }
             }
         }
 

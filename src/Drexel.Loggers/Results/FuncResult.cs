@@ -90,11 +90,20 @@ namespace Drexel.Loggers.Results
         public bool GetValue(out TValue value) =>
             this.value.GetValue(out value);
 
+        public bool RemoveValue() =>
+            this.value.RemoveValue();
+
         public bool RemoveValue(out TValue value) =>
             this.value.RemoveValue(out value);
 
+        public bool SetValue(TValue newValue) =>
+            this.value.SetValue(newValue);
+
         public bool SetValue(TValue newValue, out TValue oldValue) =>
             this.value.SetValue(newValue, out oldValue);
+
+        public bool TryAddValue(TValue value) =>
+            this.value.TryAddValue(value);
 
         public bool TryAddValue(TValue value, out TValue currentValue) =>
             this.value.TryAddValue(value, out currentValue);
@@ -183,11 +192,20 @@ namespace Drexel.Loggers.Results
         public bool GetValue(out TValue value) =>
             this.value.GetValue(out value);
 
+        public bool RemoveValue() =>
+            this.value.RemoveValue();
+
         public bool RemoveValue(out TValue value) =>
             this.value.RemoveValue(out value);
 
+        public bool SetValue(TValue newValue) =>
+            this.value.SetValue(newValue);
+
         public bool SetValue(TValue newValue, out TValue oldValue) =>
             this.value.SetValue(newValue, out oldValue);
+
+        public bool TryAddValue(TValue value) =>
+            this.value.TryAddValue(value);
 
         public bool TryAddValue(TValue value, out TValue currentValue) =>
             this.value.TryAddValue(value, out currentValue);
