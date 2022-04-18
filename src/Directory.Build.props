@@ -7,7 +7,9 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
 
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
     <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>embedded</DebugType>
   </PropertyGroup>
