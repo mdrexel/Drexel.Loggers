@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drexel.Loggers", "src\Drexe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0AA9F178-3DEE-4078-B44A-7596AC15F8FD}"
 	ProjectSection(SolutionItems) = preProject
-		src\Build.Directory.props = src\Build.Directory.props
+		src\Directory.Build.props = src\Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{94C190AC-15E0-46C1-803E-3B3F7DB8D35C}"
@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drexel.Loggers.Tests.Common
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{8511E6DD-D609-498A-9C78-D2E7B0AC9BDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drexel.Loggers.Sample", "samples\Drexel.Loggers.Sample\Drexel.Loggers.Sample.csproj", "{187393DD-B821-4F5B-BFA6-63BF62CECF56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drexel.Loggers.Sample", "samples\Drexel.Loggers.Sample\Drexel.Loggers.Sample.csproj", "{187393DD-B821-4F5B-BFA6-63BF62CECF56}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

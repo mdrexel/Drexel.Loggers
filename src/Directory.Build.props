@@ -1,11 +1,13 @@
 <Project>
   <PropertyGroup>
     <Deterministic>true</Deterministic>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+
+    <EmbedAllSources>true</EmbedAllSources>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
 
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <IncludeSymbols>true</IncludeSymbols>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>embedded</DebugType>
   </PropertyGroup>
