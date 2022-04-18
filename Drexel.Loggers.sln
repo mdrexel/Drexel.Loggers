@@ -21,7 +21,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{FF218F82
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drexel.Loggers.Tests", "tests\Drexel.Loggers.Tests\Drexel.Loggers.Tests.csproj", "{D41EB8D3-F22D-492E-93DA-DAAA80D7B519}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drexel.Loggers.Tests.Common", "tests\Drexel.Loggers.Tests.Common\Drexel.Loggers.Tests.Common.csproj", "{F2AB2D16-B826-49A4-B4DD-E6882ECD68C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drexel.Loggers.Tests.Common", "tests\Drexel.Loggers.Tests.Common\Drexel.Loggers.Tests.Common.csproj", "{F2AB2D16-B826-49A4-B4DD-E6882ECD68C8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{8511E6DD-D609-498A-9C78-D2E7B0AC9BDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drexel.Loggers.Sample", "samples\Drexel.Loggers.Sample\Drexel.Loggers.Sample.csproj", "{187393DD-B821-4F5B-BFA6-63BF62CECF56}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +45,10 @@ Global
 		{F2AB2D16-B826-49A4-B4DD-E6882ECD68C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2AB2D16-B826-49A4-B4DD-E6882ECD68C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2AB2D16-B826-49A4-B4DD-E6882ECD68C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{187393DD-B821-4F5B-BFA6-63BF62CECF56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{187393DD-B821-4F5B-BFA6-63BF62CECF56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{187393DD-B821-4F5B-BFA6-63BF62CECF56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{187393DD-B821-4F5B-BFA6-63BF62CECF56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,6 +57,7 @@ Global
 		{F6C10AAD-6B8F-4120-A559-031671479815} = {0AA9F178-3DEE-4078-B44A-7596AC15F8FD}
 		{D41EB8D3-F22D-492E-93DA-DAAA80D7B519} = {FF218F82-2487-40E5-8838-262D63BE783F}
 		{F2AB2D16-B826-49A4-B4DD-E6882ECD68C8} = {FF218F82-2487-40E5-8838-262D63BE783F}
+		{187393DD-B821-4F5B-BFA6-63BF62CECF56} = {8511E6DD-D609-498A-9C78-D2E7B0AC9BDF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5574F282-2028-4F40-BCDC-4E5C71C79E3B}
