@@ -1,5 +1,4 @@
-﻿using System;
-using Drexel.Loggers.Events;
+﻿using Drexel.Loggers.Events;
 
 namespace Drexel.Loggers.Results
 {
@@ -64,26 +63,22 @@ namespace Drexel.Loggers.Results
             return this;
         }
 
-        /// <inheritdoc cref="ActionResult.AddResult(IActionResult)"/>
-        public new FuncResult<TValue> AddResult(IActionResult result)
+        /// <inheritdoc cref="ActionResult.AddResult(IActionResult, EventCategories)"/>
+        public new FuncResult<TValue> AddResult(
+            IActionResult result,
+            EventCategories categories = EventCategories.All)
         {
-            base.AddResult(result);
+            base.AddResult(result, categories);
             return this;
         }
 
-        /// <inheritdoc cref="ActionResult.AddResult{T}(IFuncResult{T}, out T)"/>
-        /// <remarks>
-        /// Note that <paramref name="value"/> may be <see langword="null"/> if <paramref name="result"/> does not
-        /// contain a value. Because the <see cref="IFuncResult{T}"/> interface declares the value of the
-        /// <see cref="IFuncResult{T}.Value"/> property to be undefined when <see cref="IFuncResult{T}.HasValue"/> is
-        /// <see langword="false"/>, accessing <see cref="IFuncResult{T}.Value"/> could do something unexpected, like
-        /// throw an exception. To avoid unexpected exceptions, a default value is used instead. If you're using the
-        /// C# nullable reference feature, make sure <typeparamref name="T"/> is declared correctly to avoid
-        /// <see langword="null"/> escaping.
-        /// </remarks>
-        public new FuncResult<TValue> AddResult<T>(IFuncResult<T> result, out T value)
+        /// <inheritdoc cref="ActionResult.AddResult{T}(IFuncResult{T}, out T, EventCategories)"/>
+        public new FuncResult<TValue> AddResult<T>(
+            IFuncResult<T> result,
+            out T value,
+            EventCategories categories = EventCategories.All)
         {
-            base.AddResult(result, out value);
+            base.AddResult(result, out value, categories);
             return this;
         }
 
@@ -173,19 +168,22 @@ namespace Drexel.Loggers.Results
             return this;
         }
 
-        /// <inheritdoc cref="ActionResult{TEvent}.AddResult(ITryResult{TEvent})"/>
-        public new FuncResult<TEvent, TValue> AddResult(ITryResult<TEvent> result)
+        /// <inheritdoc cref="ActionResult{TEvent}.AddResult(ITryResult{TEvent}, EventCategories)"/>
+        public new FuncResult<TEvent, TValue> AddResult(
+            ITryResult<TEvent> result,
+            EventCategories categories = EventCategories.All)
         {
-            base.AddResult(result);
+            base.AddResult(result, categories);
             return this;
         }
 
-        /// <inheritdoc cref="ActionResult{TEvent}.AddResult{TValue}(IValueResult{TEvent, TValue}, out TValue)"/>
+        /// <inheritdoc cref="ActionResult{TEvent}.AddResult{TValue}(IValueResult{TEvent, TValue}, out TValue, EventCategories)"/>
         public new FuncResult<TEvent, TValue> AddResult<TOtherValue>(
             IValueResult<TEvent, TOtherValue> result,
-            out TOtherValue value)
+            out TOtherValue value,
+            EventCategories categories = EventCategories.All)
         {
-            base.AddResult(result, out value);
+            base.AddResult(result, out value, categories);
             return this;
         }
 

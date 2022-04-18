@@ -110,6 +110,9 @@ namespace Drexel.Loggers.Results
         /// <param name="result">
         /// The result to add.
         /// </param>
+        /// <param name="categories">
+        /// The categories of inner event contained by <paramref name="result"/> to add to this instance.
+        /// </param>
         /// <returns>
         /// This instance.
         /// </returns>
@@ -119,16 +122,31 @@ namespace Drexel.Loggers.Results
         /// <remarks>
         /// Note that adding a result that is unsuccessful means this instance will become unsuccessful.
         /// </remarks>
-        public ActionResult AddResult(IActionResult result)
+        public ActionResult AddResult(
+            IActionResult result,
+            EventCategories categories = EventCategories.All)
         {
             if (result is null)
             {
                 throw new ArgumentNullException(nameof(result));
             }
 
-            this.allEvents.AddRange(result.AllEvents);
-            this.errors.AddRange(result.Errors);
-            this.informationals.AddRange(result.Informationals);
+            if (categories == EventCategories.All)
+            {
+                this.allEvents.AddRange(result.AllEvents);
+                this.errors.AddRange(result.Errors);
+                this.informationals.AddRange(result.Informationals);
+            }
+            else if (categories == EventCategories.Errors)
+            {
+                this.allEvents.AddRange(result.Errors);
+                this.errors.AddRange(result.Errors);
+            }
+            else if (categories == EventCategories.Informationals)
+            {
+                this.allEvents.AddRange(result.Informationals);
+                this.informationals.AddRange(result.Informationals);
+            }
 
             this.Success &= result.Success;
 
@@ -149,6 +167,9 @@ namespace Drexel.Loggers.Results
         /// <paramref name="result"/>. Otherwise, if <paramref name="result"/> does not contain a value, set to
         /// <see langword="default"/>.
         /// </param>
+        /// <param name="categories">
+        /// The categories of inner event contained by <paramref name="result"/> to add to this instance.
+        /// </param>
         /// <returns>
         /// This instance.
         /// </returns>
@@ -158,13 +179,17 @@ namespace Drexel.Loggers.Results
         /// <remarks>
         /// Note that <paramref name="value"/> may be <see langword="null"/> if <paramref name="result"/> does not
         /// contain a value. Because the <see cref="IFuncResult{T}"/> interface declares the value of the
-        /// <see cref="IFuncResult{T}.Value"/> property to be undefined when <see cref="IFuncResult{T}.HasValue"/> is
-        /// <see langword="false"/>, accessing <see cref="IFuncResult{T}.Value"/> could do something unexpected, like
-        /// throw an exception. To avoid unexpected exceptions, a default value is used instead. If you're using the
-        /// C# nullable reference feature, make sure <typeparamref name="T"/> is declared correctly to avoid
-        /// <see langword="null"/> escaping.
+        /// <see cref="IReadOnlyValueContainer{T}.Value}"/> property to be undefined when
+        /// <see cref="IReadOnlyValueContainer{T}.HasValue"/> is
+        /// <see langword="false"/>, accessing <see cref="IReadOnlyValueContainer{T}.Value"/> could do something
+        /// unexpected, like throw an exception. To avoid unexpected exceptions, a default value is used instead. If
+        /// you're using the C# nullable reference feature, make sure <typeparamref name="T"/> is declared correctly to
+        /// avoid <see langword="null"/> escaping.
         /// </remarks>
-        public ActionResult AddResult<T>(IFuncResult<T> result, out T value)
+        public ActionResult AddResult<T>(
+            IFuncResult<T> result,
+            out T value,
+            EventCategories categories = EventCategories.All)
         {
             if (result is null)
             {
@@ -173,9 +198,22 @@ namespace Drexel.Loggers.Results
 
             value = result.HasValue ? result.Value : default!;
 
-            this.allEvents.AddRange(result.AllEvents);
-            this.errors.AddRange(result.Errors);
-            this.informationals.AddRange(result.Informationals);
+            if (categories == EventCategories.All)
+            {
+                this.allEvents.AddRange(result.AllEvents);
+                this.errors.AddRange(result.Errors);
+                this.informationals.AddRange(result.Informationals);
+            }
+            else if (categories == EventCategories.Errors)
+            {
+                this.allEvents.AddRange(result.Errors);
+                this.errors.AddRange(result.Errors);
+            }
+            else if (categories == EventCategories.Informationals)
+            {
+                this.allEvents.AddRange(result.Informationals);
+                this.informationals.AddRange(result.Informationals);
+            }
 
             this.Success &= result.Success;
 
@@ -299,6 +337,9 @@ namespace Drexel.Loggers.Results
         /// <param name="result">
         /// The result to add.
         /// </param>
+        /// <param name="categories">
+        /// The categories of inner event contained by <paramref name="result"/> to add to this instance.
+        /// </param>
         /// <returns>
         /// This instance.
         /// </returns>
@@ -308,16 +349,31 @@ namespace Drexel.Loggers.Results
         /// <remarks>
         /// Note that adding a result that is unsuccessful means this instance will become unsuccessful.
         /// </remarks>
-        public ActionResult<TEvent> AddResult(ITryResult<TEvent> result)
+        public ActionResult<TEvent> AddResult(
+            ITryResult<TEvent> result,
+            EventCategories categories = EventCategories.All)
         {
             if (result is null)
             {
                 throw new ArgumentNullException(nameof(result));
             }
 
-            this.allEvents.AddRange(result.AllEvents);
-            this.errors.AddRange(result.Errors);
-            this.informationals.AddRange(result.Informationals);
+            if (categories == EventCategories.All)
+            {
+                this.allEvents.AddRange(result.AllEvents);
+                this.errors.AddRange(result.Errors);
+                this.informationals.AddRange(result.Informationals);
+            }
+            else if (categories == EventCategories.Errors)
+            {
+                this.allEvents.AddRange(result.Errors);
+                this.errors.AddRange(result.Errors);
+            }
+            else if (categories == EventCategories.Informationals)
+            {
+                this.allEvents.AddRange(result.Informationals);
+                this.informationals.AddRange(result.Informationals);
+            }
 
             this.Success &= result.Success;
 
@@ -341,6 +397,9 @@ namespace Drexel.Loggers.Results
         /// <paramref name="result"/>. Otherwise, if <paramref name="result"/> does not contain a value, set to
         /// <see langword="default"/>.
         /// </param>
+        /// <param name="categories">
+        /// The categories of inner event contained by <paramref name="result"/> to add to this instance.
+        /// </param>
         /// <returns>
         /// This instance.
         /// </returns>
@@ -350,13 +409,17 @@ namespace Drexel.Loggers.Results
         /// <remarks>
         /// Note that <paramref name="value"/> may be <see langword="null"/> if <paramref name="result"/> does not
         /// contain a value. Because the <see cref="IFuncResult{T}"/> interface declares the value of the
-        /// <see cref="IFuncResult{T}.Value"/> property to be undefined when <see cref="IFuncResult{T}.HasValue"/> is
-        /// <see langword="false"/>, accessing <see cref="IFuncResult{T}.Value"/> could do something unexpected, like
-        /// throw an exception. To avoid unexpected exceptions, a default value is used instead. If you're using the
-        /// C# nullable reference feature, make sure <typeparamref name="TValue"/> is declared correctly to avoid
-        /// <see langword="null"/> escaping.
+        /// <see cref="IReadOnlyValueContainer{T}.Value}"/> property to be undefined when
+        /// <see cref="IReadOnlyValueContainer{T}.HasValue"/> is
+        /// <see langword="false"/>, accessing <see cref="IReadOnlyValueContainer{T}.Value"/> could do something
+        /// unexpected, like throw an exception. To avoid unexpected exceptions, a default value is used instead. If
+        /// you're using the C# nullable reference feature, make sure <typeparamref name="T"/> is declared correctly to
+        /// avoid <see langword="null"/> escaping.
         /// </remarks>
-        public ActionResult<TEvent> AddResult<TValue>(IValueResult<TEvent, TValue> result, out TValue value)
+        public ActionResult<TEvent> AddResult<TValue>(
+            IValueResult<TEvent, TValue> result,
+            out TValue value,
+            EventCategories categories = EventCategories.All)
         {
             if (result is null)
             {
@@ -365,9 +428,22 @@ namespace Drexel.Loggers.Results
 
             value = result.HasValue ? result.Value : default!;
 
-            this.allEvents.AddRange(result.AllEvents);
-            this.errors.AddRange(result.Errors);
-            this.informationals.AddRange(result.Informationals);
+            if (categories == EventCategories.All)
+            {
+                this.allEvents.AddRange(result.AllEvents);
+                this.errors.AddRange(result.Errors);
+                this.informationals.AddRange(result.Informationals);
+            }
+            else if (categories == EventCategories.Errors)
+            {
+                this.allEvents.AddRange(result.Errors);
+                this.errors.AddRange(result.Errors);
+            }
+            else if (categories == EventCategories.Informationals)
+            {
+                this.allEvents.AddRange(result.Informationals);
+                this.informationals.AddRange(result.Informationals);
+            }
 
             this.Success &= result.Success;
 
