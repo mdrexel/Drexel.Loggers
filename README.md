@@ -1,6 +1,60 @@
 # Drexel.Loggers
 C# library providing logging primitives.
 
+## Example
+Declare what events your application can produce:
+```csharp
+public class Templates
+{
+    private readonly EventCodeGroup eventCodes = new EventCodeGroup(1234567);
+
+    public LogEventTemplate OverflowDetected { get; } =
+        new LogEventTemplate(
+            new EventCode(eventCodes, 0, nameof(OverflowDetected)),
+            EventSeverity.Error,
+            "An overflow was detected.");
+```
+
+Declare a method as returning a result:
+```csharp
+public IFuncResult<int> Add(Templates templates, int left, int right)
+{
+    FuncResult<int> result = new FuncResult<int>();
+    try
+    {
+        result.SetValue(checked(left + right));
+    }
+    catch (OverflowException ex)
+    {
+        result.AddError(templates.OverflowDetected.Create());
+    }
+
+    return result;
+}
+```
+
+Compose more complex results:
+```csharp
+public IFuncResult<IReadOnlyList<int>> Add(Templates templates, IEnumerable<(int Left, int Right)> pairs)
+{
+    List<int> sums = new List<int>();
+    FuncResult<IReadOnlyList<int>> result = new FuncResult<IReadOnlyList<int>>();
+    result.SetValue(sums);
+
+    foreach ((int Left, int Right) pair in pairs)
+    {
+        if (result.AddResult(
+            Add(templates, pair.Left, pair.Right),
+            out int sum))
+        {
+            sums.Add(sum);
+        }
+    }
+
+    return result;
+}
+```
+
 ## Purpose
 A commonly desired application feature is for the application to log its activities to some persistent event store.
 This can be as simple as a text file, or a more complex solution that addresses concerns like traceability. These logs

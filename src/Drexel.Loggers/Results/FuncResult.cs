@@ -135,7 +135,7 @@ namespace Drexel.Loggers.Results
     /// </remarks>
     public sealed class FuncResult<TEvent, TValue> :
         ActionResult<TEvent>,
-        IValueResult<TEvent, TValue>,
+        IFuncResult<TEvent, TValue>,
         IValueContainer<TValue>
         where TEvent : ILogEvent
     {
@@ -192,9 +192,9 @@ namespace Drexel.Loggers.Results
             return this;
         }
 
-        /// <inheritdoc cref="ActionResult{TEvent}.AddResult{TValue}(IValueResult{TEvent, TValue}, out TValue, EventCategories)"/>
+        /// <inheritdoc cref="ActionResult{TEvent}.AddResult{TValue}(IFuncResult{TEvent, TValue}, out TValue, EventCategories)"/>
         public new FuncResult<TEvent, TValue> AddResult<TOtherValue>(
-            IValueResult<TEvent, TOtherValue> result,
+            IFuncResult<TEvent, TOtherValue> result,
             out TOtherValue value,
             EventCategories categories = EventCategories.All)
         {

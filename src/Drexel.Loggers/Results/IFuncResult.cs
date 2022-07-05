@@ -22,7 +22,7 @@ namespace Drexel.Loggers.Results
     /// <typeparam name="TValue">
     /// The type of value returned by the operation.
     /// </typeparam>
-    public interface IValueResult<out TEvent, out TValue> : IFuncResult<TValue>, ITryResult<TEvent>
+    public interface IFuncResult<out TEvent, out TValue> : IFuncResult<TValue>, ITryResult<TEvent>
         where TEvent : ILogEvent
     {
     }

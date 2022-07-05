@@ -426,7 +426,7 @@ namespace Drexel.Loggers.Results
         /// correctly to avoid <see langword="null"/> escaping.
         /// </remarks>
         public ActionResult<TEvent> AddResult<TValue>(
-            IValueResult<TEvent, TValue> result,
+            IFuncResult<TEvent, TValue> result,
             out TValue value,
             EventCategories categories = EventCategories.All)
         {
