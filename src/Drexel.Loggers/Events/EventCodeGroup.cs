@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using static System.FormattableString;
 
 namespace Drexel.Loggers.Events
 {
@@ -160,11 +159,18 @@ namespace Drexel.Loggers.Events
         {
             if (this.debugHumanReadableName is null)
             {
-                return Invariant($"({this.Id})");
+                return string.Format(
+                    CultureInfo.InvariantCulture,
+                    "({0})",
+                    this.Id);
             }
             else
             {
-                return Invariant($"({this.Id}) {this.debugHumanReadableName}");
+                return string.Format(
+                    CultureInfo.InvariantCulture,
+                    "({0}) {1}",
+                    this.Id,
+                    this.debugHumanReadableName);
             }
         }
     }

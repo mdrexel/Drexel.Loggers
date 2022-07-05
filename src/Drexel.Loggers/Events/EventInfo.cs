@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using static System.FormattableString;
+using System.Globalization;
 
 namespace Drexel.Loggers.Events
 {
@@ -11,6 +11,9 @@ namespace Drexel.Loggers.Events
     [DebuggerDisplay("{ToStringDebug(),nq}")]
     public sealed class EventInfo
     {
+        private static readonly IReadOnlyList<EventSuggestion> EmptySuggestions = new EventSuggestion[0];
+        private static readonly IReadOnlyList<EventParameter> EmptyParameters = new EventParameter[0];
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EventInfo"/> class.
         /// </summary>
@@ -42,8 +45,8 @@ namespace Drexel.Loggers.Events
             this.Code = code ?? throw new ArgumentNullException(nameof(code));
             this.Message = message ?? throw new ArgumentNullException(nameof(message));
             this.Reason = reason;
-            this.Suggestions = suggestions ?? (IReadOnlyList<EventSuggestion>)Array.Empty<EventSuggestion>();
-            this.Parameters = parameters ?? (IReadOnlyList<EventParameter>)Array.Empty<EventParameter>();
+            this.Suggestions = suggestions ?? EmptySuggestions;
+            this.Parameters = parameters ?? EmptyParameters;
         }
 
         /// <summary>
@@ -103,7 +106,11 @@ namespace Drexel.Loggers.Events
 
         private string ToStringDebug()
         {
-            return Invariant($"[{this.Code.DebugHumanReadableValue ?? this.Code.ToString()}] {this.Message}");
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                "[{0}] {1}",
+                this.Code.DebugHumanReadableValue ?? this.Code.ToString(),
+                this.Message);
         }
     }
 }

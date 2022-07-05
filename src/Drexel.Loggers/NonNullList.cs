@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using static System.FormattableString;
+using System.Globalization;
 
 namespace Drexel.Loggers
 {
@@ -113,7 +113,10 @@ namespace Drexel.Loggers
                     if (enumerator.Current is null)
                     {
                         throw new ArgumentException(
-                            Invariant($"Item at index {counter} is null."),
+                            string.Format(
+                                CultureInfo.InvariantCulture,
+                                "Item at index {0} is null.",
+                                counter),
                             enumerableParamName);
                     }
 

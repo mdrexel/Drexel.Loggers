@@ -418,7 +418,7 @@ namespace Drexel.Loggers.Results
         /// <remarks>
         /// Note that <paramref name="value"/> may be <see langword="null"/> if <paramref name="result"/> does not
         /// contain a value. Because the <see cref="IFuncResult{T}"/> interface declares the value of the
-        /// <see cref="IReadOnlyValueContainer{T}.Value}"/> property to be undefined when
+        /// <see cref="IReadOnlyValueContainer{T}.Value"/> property to be undefined when
         /// <see cref="IReadOnlyValueContainer{T}.HasValue"/> is
         /// <see langword="false"/>, accessing <see cref="IReadOnlyValueContainer{T}.Value"/> could do something
         /// unexpected, like throw an exception. To avoid unexpected exceptions, a default value is used instead. If

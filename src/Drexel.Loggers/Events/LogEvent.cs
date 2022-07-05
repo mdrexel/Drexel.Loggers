@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using static System.FormattableString;
+using System.Globalization;
 
 namespace Drexel.Loggers.Events
 {
@@ -11,6 +11,8 @@ namespace Drexel.Loggers.Events
     [DebuggerDisplay("{ToStringDebug(),nq}")]
     public class LogEvent : ILogEvent
     {
+        private static readonly IReadOnlyList<ILogEvent> EmptyInnerEvents = new ILogEvent[0];
+
         /// <summary>
         /// Initializes a new instance of the <see cref="LogEvent"/> class.
         /// </summary>
@@ -38,7 +40,7 @@ namespace Drexel.Loggers.Events
             this.Severity = severity;
             this.Info = info ?? throw new ArgumentNullException(nameof(info));
             this.Exception = exception;
-            this.InnerEvents = innerEvents ?? (IReadOnlyList<ILogEvent>)Array.Empty<ILogEvent>();
+            this.InnerEvents = innerEvents ?? EmptyInnerEvents;
         }
 
         /// <inheritdoc/>
@@ -64,7 +66,12 @@ namespace Drexel.Loggers.Events
         /// </remarks>
         protected virtual string ToStringDebug()
         {
-            return Invariant($"[{this.Info.Code.DebugHumanReadableValue ?? this.Info.Code.ToString()}] ({this.Severity}) {this.Info.Message}");
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                "[{0}] ({1}) {2}",
+                this.Info.Code.DebugHumanReadableValue ?? this.Info.Code.ToString(),
+                this.Severity,
+                this.Info.Message);
         }
     }
 }

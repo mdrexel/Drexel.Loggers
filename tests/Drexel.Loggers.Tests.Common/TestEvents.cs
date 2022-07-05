@@ -14,6 +14,7 @@ namespace Drexel.Loggers.Tests.Common
                         TestEvents.Group,
                         ushort.MaxValue,
                         "Test Event"),
+                    EventSeverity.Error,
                     "Test message"!,
                     "Test reason",
                     new EventSuggestions()

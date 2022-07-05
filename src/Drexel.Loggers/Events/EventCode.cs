@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using static System.FormattableString;
+using System.Globalization;
 
 namespace Drexel.Loggers.Events
 {
@@ -50,7 +50,11 @@ namespace Drexel.Loggers.Events
                     nameof(value));
             }
 
-            this.stringRepresentation = Invariant($"{group.Id}:{value}");
+            this.stringRepresentation = string.Format(
+                CultureInfo.InvariantCulture,
+                "{0}:{1}",
+                group.Id,
+                value);
         }
 
         /// <summary>
@@ -159,11 +163,17 @@ namespace Drexel.Loggers.Events
         {
             if (this.DebugHumanReadableValue is null)
             {
-                return Invariant($"({this.stringRepresentation})");
+                return string.Format(
+                    CultureInfo.InvariantCulture,
+                    "({0})",
+                    this.stringRepresentation);
             }
             else
             {
-                return Invariant($"({this.stringRepresentation}) {this.DebugHumanReadableValue}");
+                return string.Format(
+                    "({0}) {1}",
+                    this.stringRepresentation,
+                    this.DebugHumanReadableValue);
             }
         }
     }
