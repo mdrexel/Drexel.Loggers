@@ -13,6 +13,7 @@ public class Templates
             new EventCode(eventCodes, 0, nameof(OverflowDetected)),
             EventSeverity.Error,
             "An overflow was detected.");
+}
 ```
 
 Declare a method as returning a result:
