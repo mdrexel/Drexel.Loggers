@@ -1,7 +1,6 @@
 ﻿using System;
-using Drexel.Loggers.Events;
 
-namespace Drexel.Loggers.Templates
+namespace Drexel.Loggers.Events
 {
     /// <summary>
     /// A simple implementation of <see cref="ILogEventTemplate{T}"/> that handles checking for <see langword="null"/>
@@ -80,21 +79,22 @@ namespace Drexel.Loggers.Templates
         /// An instance of <typeparamref name="T"/> created using the supplied values.
         /// </returns>
         /// <inheritdoc/>
-        public T Create(
-            EventReason? reason = null,
-            EventSuggestions? suggestions = null,
-            EventParameters? parameters = null,
-            EventInnerEvents? innerEvents = null)
+        public T Create(IEventData data)
         {
+            if (data is null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
             return
                 this.CreateInternal(
                     this.Code ?? throw new InvalidOperationException("Event template code illegally null."),
                     this.Severity,
                     this.Message ?? throw new InvalidOperationException("Event template message illegally null."),
-                    reason ?? this.DefaultReason,
-                    suggestions ?? this.DefaultSuggestions,
-                    parameters,
-                    innerEvents)
+                    data.Reason ?? this.DefaultReason,
+                    data.Suggestions ?? this.DefaultSuggestions,
+                    data.EventParameters,
+                    data.InnerEvents)
                 ?? throw new InvalidOperationException("Event template illegally produced a null event.");
         }
 
@@ -106,23 +106,25 @@ namespace Drexel.Loggers.Templates
         /// </returns>
         /// <inheritdoc/>
         public T Create<TException>(
-            TException? exception,
-            EventReason? reason = null,
-            EventSuggestions? suggestions = null,
-            EventParameters? parameters = null,
-            EventInnerEvents? innerEvents = null)
+            IEventData data,
+            TException? exception)
             where TException : Exception
         {
+            if (data is null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
             return
-                this.CreateInternal<TException>(
+                this.CreateInternal(
                     exception,
                     this.Code ?? throw new InvalidOperationException("Event template code illegally null."),
                     this.Severity,
                     this.Message ?? throw new InvalidOperationException("Event template message illegally null."),
-                    reason ?? this.DefaultReason,
-                    suggestions ?? this.DefaultSuggestions,
-                    parameters,
-                    innerEvents)
+                    data.Reason ?? this.DefaultReason,
+                    data.Suggestions ?? this.DefaultSuggestions,
+                    data.EventParameters,
+                    data.InnerEvents)
                 ?? throw new InvalidOperationException("Event template illegally produced a null event.");
         }
 

@@ -1,5 +1,4 @@
 ﻿using Drexel.Loggers.Events;
-using Drexel.Loggers.Templates;
 
 namespace Drexel.Loggers.Tests.Common
 {

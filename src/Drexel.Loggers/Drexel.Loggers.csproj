@@ -18,14 +18,15 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <Version>1.1.0</Version>
+    <Version>2.0.0</Version>
     <Authors>Max Drexel</Authors>
     <Description>C# library defining logging primitives.</Description>
     <Copyright>Copyright 2022</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/mdrexel/Drexel.Loggers</PackageProjectUrl>
     <PackageTags>logging logger event events TryResult ActionResult FuncResult drexel</PackageTags>
-    <PackageReleaseNotes>1.1.0: Retarget from .NET Standard 2.0 to .NET Standard 1.1 for higher compatibility
+    <PackageReleaseNotes>2.0.0: Removed the Templates namespace to reduce clutter
+1.1.0: Retarget from .NET Standard 2.0 to .NET Standard 1.1 for higher compatibility
 1.0.0: Initial release</PackageReleaseNotes>
   </PropertyGroup>
 

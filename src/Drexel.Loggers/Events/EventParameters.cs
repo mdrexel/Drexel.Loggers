@@ -7,7 +7,7 @@ namespace Drexel.Loggers.Events
     /// Represents an ordered collection of parameters associated with an event.
     /// </summary>
     [DebuggerDisplay("Count = {Count,nq}")]
-    public sealed class EventParameters : NonNullList<EventParameter, EventParameters>
+    public sealed class EventParameters : NonNullList<IEventParameter, EventParameters>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EventParameters"/> class.
@@ -30,7 +30,7 @@ namespace Drexel.Loggers.Events
         /// Initializes a new instance of the <see cref="EventParameters"/> class.
         /// </summary>
         /// <inheritdoc/>
-        public EventParameters(params EventParameter[] itemParams)
+        public EventParameters(params IEventParameter[] itemParams)
             : base(itemParams)
         {
         }
@@ -39,7 +39,7 @@ namespace Drexel.Loggers.Events
         /// Initializes a new instance of the <see cref="EventParameters"/> class.
         /// </summary>
         /// <inheritdoc/>
-        public EventParameters(IReadOnlyCollection<EventParameter> collection)
+        public EventParameters(IReadOnlyCollection<IEventParameter> collection)
             : base(collection)
         {
         }
@@ -48,7 +48,7 @@ namespace Drexel.Loggers.Events
         /// Initializes a new instance of the <see cref="EventParameters"/> class.
         /// </summary>
         /// <inheritdoc/>
-        public EventParameters(IEnumerable<EventParameter> enumerable, int capacity = 0)
+        public EventParameters(IEnumerable<IEventParameter> enumerable, int capacity = 0)
             : base(enumerable, capacity)
         {
         }

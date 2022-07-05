@@ -12,7 +12,7 @@ namespace Drexel.Loggers.Events
     public sealed class EventInfo
     {
         private static readonly IReadOnlyList<EventSuggestion> EmptySuggestions = new EventSuggestion[0];
-        private static readonly IReadOnlyList<EventParameter> EmptyParameters = new EventParameter[0];
+        private static readonly IReadOnlyList<IEventParameter> EmptyParameters = new IEventParameter[0];
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EventInfo"/> class.
@@ -102,7 +102,7 @@ namespace Drexel.Loggers.Events
         /// <remarks>
         /// Parameters describe inputs to the operation that raised the event, or internal state of the system.
         /// </remarks>
-        public IReadOnlyList<EventParameter> Parameters { get; }
+        public IReadOnlyList<IEventParameter> Parameters { get; }
 
         private string ToStringDebug()
         {

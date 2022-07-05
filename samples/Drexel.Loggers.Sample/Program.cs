@@ -1,6 +1,5 @@
 ﻿using Drexel.Loggers.Events;
 using Drexel.Loggers.Results;
-using Drexel.Loggers.Templates;
 
 namespace Drexel.Loggers.Sample
 {
@@ -81,8 +80,8 @@ namespace Drexel.Loggers.Sample
                     return innerResult.AddError(
                         TemplateProvider.Singleton.InputOutOfRange.Create(
                             parameters: new EventParameters(
-                                new EventParameter(ParameterNames.Parameter, parameterName),
-                                new EventParameter(ParameterNames.Value, value))));
+                                EventParameter.Create(ParameterNames.Parameter, parameterName),
+                                EventParameter.Create(ParameterNames.Value, value))));
                 }
 
                 if (Math.Sign(value) == -1)
@@ -90,8 +89,8 @@ namespace Drexel.Loggers.Sample
                     innerResult.AddInformational(
                         TemplateProvider.Singleton.InputNegative.Create(
                             parameters: new EventParameters(
-                                new EventParameter(ParameterNames.Parameter, parameterName),
-                                new EventParameter(ParameterNames.Value, value))));
+                                EventParameter.Create(ParameterNames.Parameter, parameterName),
+                                EventParameter.Create(ParameterNames.Value, value))));
                 }
 
                 if (Math.Truncate(value) != value)
@@ -99,8 +98,8 @@ namespace Drexel.Loggers.Sample
                     innerResult.AddInformational(
                         TemplateProvider.Singleton.InputNonInteger.Create(
                             parameters: new EventParameters(
-                                new EventParameter(ParameterNames.Parameter, parameterName),
-                                new EventParameter(ParameterNames.Value, value))));
+                                EventParameter.Create(ParameterNames.Parameter, parameterName),
+                                EventParameter.Create(ParameterNames.Value, value))));
                 }
 
                 innerResult.SetValue(value);
@@ -128,7 +127,7 @@ namespace Drexel.Loggers.Sample
                     TemplateProvider.Singleton.OutputOutOfRange.Create(
                         e,
                         parameters: new EventParameters(
-                            new EventParameter(ParameterNames.Value, sum))));
+                            EventParameter.Create(ParameterNames.Value, sum))));
             }
 
             return result;
