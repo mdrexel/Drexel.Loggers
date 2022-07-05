@@ -75,14 +75,14 @@ Some notable downsides of `Drexel.Loggers` are:
   [ILogger](https://docs.microsoft.com/en-us/dotnet/core/extensions/logging) or [Serilog](https://serilog.net/), that
   more readily address the actual "logging" - that is, writing things out to disk or an event sink.
 * It introduces a new convention developers must understand before they can contribute to a code-base using it.
-* Because logging forces operations to roll up before they can be logged, events are delayed until the operation
-  completes - or, if an operation is interrupted (ex. by an unexpected exception), events may be lost.
+* Because using results forces operations to roll up before they can be logged, events are delayed until the operation
+  completes - or, if an operation is interrupted (ex. by an unexpected exception), events could be lost.
 
 ## Theory of Operation
-A C# application is, in essence, a series of method-calls that are themselves composed of method-calls. Ignoring the
-application entry point and other CLR hooks, everything that happens over the lifetime of a C# application is just
-methods calling other methods. When using `Drexel.Loggers`, methods that can produce events return an `IActionResult`
-or `IFuncResult<T>`. These interfaces encapsulate:
+A C# application is essentially a series of method-calls. Ignoring the application entry point and other CLR hooks,
+everything that happens over the lifetime of a C# application is just methods calling other methods. When using
+`Drexel.Loggers`, methods that can produce events return an `IActionResult` or `IFuncResult<T>`. These interfaces
+encapsulate:
 * The success or failure state of the method call.
 * The events that occurred during the course of the method call.
 * The result of the method call, if one exists.
@@ -108,6 +108,6 @@ For a simple example application, see [`Program.cs`](/samples/Drexel.Loggers.Sam
 ## Building from source
 Prerequisites:
 * [Visual Studio 2022 Community](https://visualstudio.microsoft.com/vs/community/)
-  * The production code only requires .NET Standard 2.0 support.
+  * The production code only requires .NET Standard 1.1 support.
   * The tests and sample require the .NET 6.0 Runtime.
   * To check test coverage, use [FineCodeCoverage Extension](https://github.com/FortuneN/FineCodeCoverage)
